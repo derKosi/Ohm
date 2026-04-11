@@ -265,38 +265,19 @@ go install github.com/derKosi/Ohm@latest
 ohm scan              # Scan system for AI software
 ohm scan --path       # Also check PATH for AI tool entries
 ohm scan --env        # Also check environment variables
+ohm scan --shell      # Also check shell profiles
 ohm scan --deep       # Thorough filesystem crawl
+ohm scan --no-tui     # Text output (no TUI)
+ohm scan --json       # JSON output for scripting/CI
 ohm generate          # Generate cleanup script from last selection
-ohm history           # Show what was removed in previous runs
 ohm stragglers        # Scan only for leftover files from removed tools
-ohm signatures        # List known software signatures
-ohm signatures --add  # Add a custom signature
+ohm history           # Show what was removed in previous runs
+ohm version           # Show version
 ```
 
-## Custom Signatures
+## Custom Signatures *(coming soon)*
 
-Ohm ships with a built-in database of known AI tools. You can extend it with custom signatures for private or niche tools:
-
-```yaml
-# ~/.ohm/signatures/paperclipai.yaml
-name: PaperclipAI
-category: agents
-detect:
-  paths:
-    - ~/.paperclip/
-    - ~/.config/paperclip/
-  files:
-    - paperclip.yaml
-  commands:
-    - paperclip --version
-uninstall:
-  linux: "npm uninstall -g paperclip-cli"
-  macos: "npm uninstall -g paperclip-cli"
-  windows: "npm uninstall -g paperclip-cli"
-cleanup:
-  - "~/.paperclip/"
-  - "~/.config/paperclip/"
-```
+Ohm ships with a built-in database of 84+ known AI tools. Custom YAML signatures (`~/.ohm/signatures/*.yaml`) for private or niche tools are planned for a future release.
 
 ## Safety
 

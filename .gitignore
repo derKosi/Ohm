@@ -1,0 +1,35 @@
+# Ohm - Resistance against AGI bloat
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Go
+/ohm
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+vendor/
+
+# Build
+dist/
+build/
+
+# Ohm state (user-specific, not for repo)
+.ohm/
+
+# Generated scripts
+ohm-cleanup-*.sh
+ohm-cleanup-*.ps1
+ohm-cleanup-*.bat
+dist/

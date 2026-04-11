@@ -320,8 +320,10 @@ Free to use, modify, and distribute. Attribution required (keep the copyright no
 
 | File | Description |
 |------|-------------|
-| [`docs/PROJECT-PLAN.md`](docs/PROJECT-PLAN.md) | Full project plan, milestones, architecture |
+| [`docs/ROADMAP.md`](docs/ROADMAP.md) | Remaining work, priorities, custom signatures spec |
 | [`docs/SIGNATURES.md`](docs/SIGNATURES.md) | Complete AI software signature catalog |
+| [`docs/SALT-ANALYSIS.md`](docs/SALT-ANALYSIS.md) | Value proposition and salt analysis |
+| [`docs/PROJECT-PLAN.md`](docs/PROJECT-PLAN.md) | Architecture, data model, scan pipeline |
 | [`test-fixtures/`](test-fixtures/) | Real-world inventory files for testing |
 
 ---

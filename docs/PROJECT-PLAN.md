@@ -205,67 +205,76 @@ clean          # Remove build artifacts
 
 ## Milestones
 
-### Phase 1: Foundation (Current)
+### Phase 1: Foundation ✅
 - [x] Project planning
-- [x] Signature catalog
+- [x] Signature catalog (84+ entries)
+- [x] Go module + dependencies (Bubble Tea, Lip Gloss)
+- [x] Data model types (Finding, Category, Risk, ScanResult)
+- [x] OS detection + path resolution
 - [x] Test fixtures (Windows + Linux)
-- [x] README
-- [ ] Go module init + dependency setup
-- [ ] Data model types
-- [ ] OS detection + path resolution
 
-### Phase 2: Core Scanners
-- [ ] Package manager discovery (npm, pip, brew, apt, winget)
-- [ ] Agent/harness scanner
-- [ ] Config dir scanner
-- [ ] Model runtime scanner
-- [ ] Size calculation
-- [ ] Basic CLI output (no TUI yet — just verify scanning works)
+### Phase 2: Core Scanners ✅
+- [x] Package manager discovery (npm, pip, brew)
+- [x] Agent/harness scanner (47 agents)
+- [x] Config dir scanner
+- [x] Model runtime scanner (8 runtimes)
+- [x] Editor scanner (7 editors)
+- [x] SDK/framework scanner (9 SDKs)
+- [x] Size calculation
+- [x] Basic CLI output (--no-tui)
 
-### Phase 3: Extended Scanners
-- [ ] ComfyUI scanner
-- [ ] SDK/framework scanner
-- [ ] Model cache scanner
-- [ ] Instruction file scanner
-- [ ] Memory/session scanner
-- [ ] MCP config scanner
-- [ ] Docker scanner
-- [ ] Straggler detection
-- [ ] Opt-in: PATH scanner
-- [ ] Opt-in: ENV scanner
+### Phase 3: Extended Scanners ✅
+- [x] ComfyUI scanner
+- [x] Model cache scanner (.gguf, safetensors, HuggingFace)
+- [x] Instruction file scanner (AGENTS.md, CLAUDE.md, etc.)
+- [x] Memory/session scanner
+- [x] MCP config scanner
+- [x] Docker scanner
+- [x] Plugin/extension scanner (pi skills, VS Code)
+- [x] Straggler detection
+- [x] Opt-in: PATH scanner
+- [x] Opt-in: ENV scanner
+- [x] Opt-in: Shell profile scanner
 
-### Phase 4: TUI
-- [ ] Bubble Tea main app
-- [ ] Category grouping with expand/collapse
-- [ ] Checkbox selection
-- [ ] Size display
-- [ ] Detail view
-- [ ] Risk indicators (⚠️ for credentials)
+### Phase 4: TUI ✅
+- [x] Bubble Tea main app with viewport scrolling
+- [x] Category grouping
+- [x] Checkbox selection (space, a toggle all)
+- [x] Size display per item and per category
+- [x] Risk indicators (🔑 danger, ⚠️ caution)
+- [x] Scanning animation
 
-### Phase 5: Script Generation
-- [ ] Bash script generator
-- [ ] PowerShell script generator
-- [ ] Comments + warnings
-- [ ] Size summary
+### Phase 5: Script Generation ✅
+- [x] Bash script generator
+- [x] PowerShell script generator
+- [x] Comments + warnings + credential flags
+- [x] Size summary
 
-### Phase 6: State & History
-- [ ] JSON state persistence
-- [ ] Straggler detection via state comparison
-- [ ] History command
-- [ ] `ohm stragglers` command
+### Phase 6: State & History ✅
+- [x] JSON state persistence
+- [x] Straggler detection via state comparison
+- [x] History command
+- [x] `ohm stragglers` command
 
-### Phase 7: Custom Signatures
-- [ ] YAML signature format
-- [ ] Signature loader
-- [ ] `ohm signatures` command
-- [ ] `ohm signatures --add` interactive
+### Phase 7: Release ✅
+- [x] Makefile (build, build-all, test, lint, clean)
+- [x] Cross-compile 6 platforms
+- [x] GitHub repo + v0.1.0 release
+- [x] `go install` working
+- [x] PII audit (clean)
+- [x] README with real scan outputs
 
-### Phase 8: Polish & Release
-- [ ] Makefile
-- [ ] GoReleaser config
+### Phase 8: Remaining Work
+- [ ] Unit tests (scanner, generator, model)
 - [ ] GitHub Actions CI
-- [ ] README final review
-- [ ] First release: v0.1.0
+- [ ] Custom YAML signatures (see [docs/ROADMAP.md](ROADMAP.md))
+- [ ] `ohm signatures` command
+- [ ] GoReleaser
+- [ ] Self-update command
+- [ ] TUI expand/collapse, detail view, search/filter
+- [ ] Known bug fixes (see [docs/ROADMAP.md](ROADMAP.md))
+
+See **[`docs/ROADMAP.md`](ROADMAP.md)** for detailed specs and priority order.
 
 ## Testing Strategy
 

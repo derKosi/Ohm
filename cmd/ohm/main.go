@@ -85,6 +85,9 @@ func printHelp() {
 	fmt.Println()
 	fmt.Println("🔒 Privacy: All scanning is local. No data leaves your machine.")
 	fmt.Println()
+	fmt.Printf("Ohm v%s — https://github.com/derKosi/Ohm\n", version)
+	fmt.Println("Check for updates: https://github.com/derKosi/Ohm/releases")
+	fmt.Println()
 	fmt.Println("MIT License — © 2026 Mathias Kosinski")
 }
 

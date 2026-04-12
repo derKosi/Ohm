@@ -52,7 +52,7 @@ Total AI software footprint: **~41.3 GB** across 19 items
 
 Total: 19 items (41.3 GB) | Selected: 3 items (39.6 GB)
 ↑/k up • ↓/j down • pgup/pgdn • space select • a toggle all • g generate • q quit
-MIT License © 2026 Mathias Kosinski · Built with Pi Harness + GLM-5.1
+AGPL-3.0 © 2026 Mathias Kosinski · Built with Pi Harness + GLM-5.1 · Built with Pi Harness + GLM-5.1
 ```
 
 ## Details

@@ -1,3 +1,6 @@
+// SPDX-FileCopyrightText: 2026 Mathias Kosinski
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
 package model
 
 import (

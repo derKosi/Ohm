@@ -1,7 +1,7 @@
 .PHONY: build run test lint clean install
 
 BINARY=ohm
-VERSION?=0.1.0
+VERSION?=0.1.1
 LDFLAGS=-ldflags "-s -w -X main.version=$(VERSION)"
 
 build:

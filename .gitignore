@@ -12,24 +12,22 @@ Thumbs.db
 
 # Go
 /ohm
-*.exe
-*.exe~
-*.dll
-*.so
-*.dylib
 *.test
 *.out
 vendor/
 
-# Build
+# Build output
 dist/
 build/
 
-# Ohm state (user-specific, not for repo)
+# Ohm state (user-specific)
 .ohm/
 
-# Generated scripts
+# Generated cleanup scripts
 ohm-cleanup-*.sh
 ohm-cleanup-*.ps1
 ohm-cleanup-*.bat
-dist/
+
+# Environment files (may contain API keys)
+.env
+.env.*

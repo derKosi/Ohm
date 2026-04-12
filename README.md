@@ -96,9 +96,9 @@ Ohm uses two detection layers:
 🔒 All scanning is local. No data leaves this machine.
 
 🤖 Agents & Harnesses (5 found, 13.5 GB)
-> [ ] ⚠️  pi (Coding Agent)              92.8 MB    /home/Kosi/.pi
+  [ ] ⚠️  pi (Coding Agent)              93.4 MB    /home/Kosi/.pi
   [ ] 🔑 Claude Code                    278 B      /home/Kosi/.claude, /home/Kosi/.claude.json
-  [ ] 🔑 Gemini CLI (Google)            5.3 MB     /home/Kosi/.gemini
+> [ ] 🔑 Gemini CLI (Google)            5.3 MB     /home/Kosi/.gemini
   [ ]    Mistral Vibe                   523.0 KB   /home/Kosi/.vibe
   [x] ⚠️  PaperclipAI                    13.4 GB    /home/Kosi/.paperclip
 
@@ -123,15 +123,16 @@ Ohm uses two detection layers:
 📁 Config & Data Dirs (6 found, 13.5 GB)
   [ ] 🔑 Claude Config                  242 B      /home/Kosi/.claude
   [ ] 🔑 Claude Config (JSON)           36 B       /home/Kosi/.claude.json
-  [ ] ⚠️  pi Config                      92.8 MB    /home/Kosi/.pi
+  [ ] ⚠️  pi Config                      93.4 MB    /home/Kosi/.pi
   [ ] ⚠️  Gemini CLI Config              5.3 MB     /home/Kosi/.gemini
   [ ]    Mistral Vibe Config            523.0 KB   /home/Kosi/.vibe
   [x] 🔑 PaperclipAI Config             13.4 GB    /home/Kosi/.paperclip
 
 
-Total: 19 items (41.8 GB) | Selected: 3 items (40.1 GB)
+Total: 19 items (41.9 GB) | Selected: 3 items (40.2 GB)
 ↑/k up • ↓/j down • pgup/pgdn • space select • a toggle all • g generate • q quit
-MIT License © 2026 Mathias Kosinski · Built with Pi Harness + GLM-5.1
+
+Ohm v0.1.1 · AGPL-3.0 © 2026 Mathias Kosinski · Built with Pi Harness + GLM-5.1 · github.com/derKosi/Ohm/releases
 ```
 
 ### Windows 11 TUI (interactive mode):
@@ -139,12 +140,13 @@ MIT License © 2026 Mathias Kosinski · Built with Pi Harness + GLM-5.1
 ```
   ───┤   ⚡  O H M     ├───
 🔒 All scanning is local. No data leaves this machine.
+⚠️  WSL detected. Ohm cannot scan inside WSL from Windows. Run "ohm scan" inside WSL for a complete picture.
 
 🤖 Agents & Harnesses (9 found, 2.6 GB)
-  [ ] ⚠️  pi (Coding Agent)              15.3 MB    C:\Users\root\.pi
+  [ ] ⚠️  pi (Coding Agent)              16.4 MB    C:\Users\root\.pi
   [ ] 🔑 Claude Code                    407.2 MB   ...s\root\.claude, C:\Users\root\.claude.json
   [ ] 🔑 Codex CLI (OpenAI)             138.6 MB   C:\Users\root\.codex
-> [ ] 🔑 Gemini CLI (Google)            725.3 MB   C:\Users\root\.gemini
+  [ ] 🔑 Gemini CLI (Google)            725.3 MB   C:\Users\root\.gemini
   [ ]    Aider                          0 B        (binary found in PATH)
   [ ]    Mistral Vibe                   1.9 MB     C:\Users\root\.vibe
   [ ] ⚠️  PaperclipAI                    0 B        C:\Users\root\.paperclip
@@ -183,7 +185,7 @@ MIT License © 2026 Mathias Kosinski · Built with Pi Harness + GLM-5.1
 📁 Config & Data Dirs (9 found, 2.6 GB)
   [ ] 🔑 Claude Config                  407.1 MB   C:\Users\root\.claude
   [ ] 🔑 Claude Config (JSON)           53.6 KB    C:\Users\root\.claude.json
-  [ ] ⚠️  pi Config                      15.3 MB    C:\Users\root\.pi
+  [ ] ⚠️  pi Config                      16.4 MB    C:\Users\root\.pi
   [ ] ⚠️  Codex CLI Config               138.6 MB   C:\Users\root\.codex
   [ ] ⚠️  Cursor Config                  82.4 KB    C:\Users\root\.cursor
   [ ] ⚠️  Gemini CLI Config              725.3 MB   C:\Users\root\.gemini
@@ -193,7 +195,8 @@ MIT License © 2026 Mathias Kosinski · Built with Pi Harness + GLM-5.1
 
 Total: 31 items (6.6 GB) | Selected: 0 items (0 B)
 ↑/k up • ↓/j down • pgup/pgdn • space select • a toggle all • g generate • q quit
-MIT License © 2026 Mathias Kosinski · Built with Pi Harness + GLM-5.1
+
+Ohm v0.1.1 · AGPL-3.0 © 2026 Mathias Kosinski · Built with Pi Harness + GLM-5.1 · github.com/derKosi/Ohm/releases
 ```
 
 ### Generated cleanup script:
@@ -281,9 +284,14 @@ Ohm uses the following open-source libraries:
 
 ## License
 
-[MIT License](LICENSE) — © 2026 Mathias Kosinski
+Ohm is dual-licensed:
 
-Free to use, modify, and distribute. Attribution required (keep the copyright notice).
+- **[AGPL-3.0](LICENSE)** for open-source use — free to run on your own machines
+- **[Commercial license](COMMERCIAL-LICENSE.md)** available for embedding, OEM, or SaaS integration
+
+**Most users don't need a commercial license.** Running `ohm scan` at home or at work is free. See [COMMERCIAL-LICENSE.md](COMMERCIAL-LICENSE.md) for details.
+
+© 2026 Mathias Kosinski · [Third-party notices](THIRD-PARTY-NOTICES.md)
 
 ## Documentation
 
@@ -294,9 +302,12 @@ Free to use, modify, and distribute. Attribution required (keep the copyright no
 | [`docs/SALT-ANALYSIS.md`](docs/SALT-ANALYSIS.md) | Value proposition and salt analysis |
 | [`docs/PROJECT-PLAN.md`](docs/PROJECT-PLAN.md) | Architecture, data model, scan pipeline |
 | [`test-fixtures/`](test-fixtures/) | Real-world inventory files for testing |
+| [`COMMERCIAL-LICENSE.md`](COMMERCIAL-LICENSE.md) | Dual-license details and FAQ |
+| [`CONTRIBUTING.md`](CONTRIBUTING.md) | Contribution guidelines and DCO |
+| [`THIRD-PARTY-NOTICES.md`](THIRD-PARTY-NOTICES.md) | Dependency licenses |
 
 ---
 
 *Ohm — Resistance against AGI bloat.*
 *Designed with help of [Pi Harness](https://github.com/mariozechner/pi-coding-agent) and GLM-5.1.*
-*[MIT License](LICENSE) — © 2026 Mathias Kosinski*
+*[AGPL-3.0](LICENSE) — © 2026 Mathias Kosinski · [Commercial licensing available](COMMERCIAL-LICENSE.md)*

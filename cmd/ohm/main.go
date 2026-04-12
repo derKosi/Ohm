@@ -1,3 +1,6 @@
+// SPDX-FileCopyrightText: 2026 Mathias Kosinski
+// SPDX-License-Identifier: AGPL-3.0-or-later
+
 package main
 
 import (
@@ -14,7 +17,7 @@ import (
 	"github.com/derKosi/Ohm/internal/scanner"
 )
 
-var version = "0.1.0"
+var version = "0.1.1"
 
 func isTerminal() bool {
 	fi, err := os.Stdin.Stat()
@@ -57,16 +60,16 @@ func main() {
 
 func printVersion() {
 	printBanner()
-	fmt.Printf("  v%s\n", version)
-	fmt.Println("  Resistance against AGI bloat.")
-	fmt.Println("  Designed with help of Pi Harness and GLM-5.1")
-	fmt.Println("  MIT License — © 2026 Mathias Kosinski")
 	fmt.Println()
-	fmt.Println("  Check for new versions: https://github.com/derKosi/Ohm/releases")
+	fmt.Println("  Resistance against AGI bloat.")
+	fmt.Println()
+	fmt.Printf("  Ohm v%s · AGPL-3.0 © 2026 Mathias Kosinski · Built with Pi Harness + GLM-5.1\n", version)
+	fmt.Println("  github.com/derKosi/Ohm/releases")
 }
 
 func printHelp() {
-	fmt.Println(titleStyle.Render("⚡ Ohm — AI Software Scanner"))
+	fmt.Println()
+	fmt.Println("🔒 All scanning is local. No data leaves this machine.")
 	fmt.Println()
 	fmt.Println("Resistance against AGI bloat.")
 	fmt.Println()
@@ -85,10 +88,8 @@ func printHelp() {
 	fmt.Println()
 	fmt.Println("🔒 Privacy: All scanning is local. No data leaves your machine.")
 	fmt.Println()
-	fmt.Printf("Ohm v%s — https://github.com/derKosi/Ohm\n", version)
-	fmt.Println("Check for updates: https://github.com/derKosi/Ohm/releases")
-	fmt.Println()
-	fmt.Println("MIT License — © 2026 Mathias Kosinski")
+	fmt.Printf("Ohm v%s — github.com/derKosi/Ohm/releases\n", version)
+	fmt.Println("AGPL-3.0 © 2026 Mathias Kosinski · Built with Pi Harness + GLM-5.1")
 }
 
 func cmdScan() {
@@ -109,7 +110,7 @@ func cmdScan() {
 		}()
 
 		animStyle := lipgloss.NewStyle().Foreground(lipgloss.Color("62"))
-		fmt.Print(animStyle.Render("  ⚡ Ohm  ══════════ Scanning"))
+		fmt.Print(animStyle.Render("  ⚡ Ohm  ══════ Scanning"))
 
 		var result *model.ScanResult
 		ticker := time.NewTicker(500 * time.Millisecond)
@@ -271,8 +272,8 @@ type TUIApp struct {
 }
 
 const (
-	headerLines = 4 // banner + privacy + blank + blank
-	footerLines = 4 // totals + blank + keys + blank
+	baseHeaderLines = 3 // banner + privacy + blank
+	footerLines    = 4 // totals + keys + blank + version
 )
 
 // NewTUIScanner creates a TUI that runs the scan with a spinner.
@@ -421,7 +422,12 @@ func (a *TUIApp) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 
 // viewportHeight returns the number of lines available for items.
 func (a *TUIApp) viewportHeight() int {
-	h := a.height - headerLines - footerLines
+	warnings := 0
+	if a.result != nil {
+		warnings = len(a.result.Warnings)
+	}
+	hl := baseHeaderLines + warnings + 1 // +1 for blank line after warnings
+	h := a.height - hl - footerLines
 	if h < 1 {
 		return 1
 	}
@@ -486,12 +492,12 @@ func (a *TUIApp) View() string {
 	// Scanning state — rotating animation
 	if a.scanning {
 		frames := []string{
-			"  ⚡ Ohm  ══════════ Scanning. 🔍",
-			"  ⚡ Ohm  ══════════ Scanning.. 🔎",
-			"  ⚡ Ohm  ══════════ Scanning... 🤖",
-			"  ⚡ Ohm  ══════════ Scanning. 🧠",
-			"  ⚡ Ohm  ══════════ Scanning.. 📦",
-			"  ⚡ Ohm  ══════════ Scanning... ⚙️ ",
+			"  ⚡ Ohm  ══════ Scanning. 🔍",
+			"  ⚡ Ohm  ══════ Scanning.. 🔎",
+			"  ⚡ Ohm  ══════ Scanning... 🤖",
+			"  ⚡ Ohm  ══════ Scanning. 🧠",
+			"  ⚡ Ohm  ══════ Scanning.. 📦",
+			"  ⚡ Ohm  ══════ Scanning... ⚙️ ",
 		}
 		frame := frames[a.dotCount%len(frames)]
 		styled := lipgloss.NewStyle().Foreground(lipgloss.Color("62")).Render(frame)
@@ -647,7 +653,8 @@ func (a *TUIApp) View() string {
 
 	sb.WriteString(helpStyle(fmt.Sprintf("↑/k up • ↓/j down • pgup/pgdn • space select • a toggle all • g generate • q quit%s", scrollInfo)))
 	sb.WriteString("\n")
-	sb.WriteString(helpStyle(fmt.Sprintf("Ohm v%s · MIT License © 2026 Mathias Kosinski · Updates: github.com/derKosi/Ohm/releases", version)))
+	sb.WriteString("\n")
+	sb.WriteString(helpStyle(fmt.Sprintf("Ohm v%s · AGPL-3.0 © 2026 Mathias Kosinski · Built with Pi Harness + GLM-5.1 · github.com/derKosi/Ohm/releases", version)))
 	sb.WriteString("\n")
 
 	return sb.String()

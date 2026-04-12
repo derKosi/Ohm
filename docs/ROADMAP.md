@@ -1,6 +1,6 @@
 # Ohm — Roadmap
 
-**Current version**: v0.1.0  
+**Current version**: v0.1.1  
 **Status**: Released. 84+ signatures, cross-platform TUI, script generation, zero PII.  
 **Repo**: https://github.com/derKosi/Ohm
 
@@ -28,6 +28,7 @@
 | Scanning animation | ✅ |
 | Cross-compile (linux/darwin/windows amd64+arm64) | ✅ |
 | GitHub repo + v0.1.0 release with binaries | ✅ |
+| v0.1.1 bug fixes, AGPL license, --all flag, WSL detection | ✅ |
 | `go install github.com/derKosi/Ohm/cmd/ohm@latest` | ✅ |
 | PII audit — zero personal data in repo/history | ✅ |
 
@@ -304,3 +305,16 @@ Add the tool to the right category section with install, config, and uninstall d
 - [ ] Appropriate `risk` level (has API keys → `RiskDanger`, configs → `RiskCaution`, otherwise `RiskSafe`)
 - [ ] Added to `SIGNATURES.md`
 - [ ] Run `./ohm scan` on a machine with the tool to verify detection
+
+---
+
+## Legal & Licensing (Future)
+
+| Step | Status | When |
+|------|--------|------|
+| AGPL-3.0 LICENSE file | ✅ Done | — |
+| SPDX headers in source files | ✅ Done | — |
+| CONTRIBUTING.md with DCO | ✅ Done | — |
+| CLA for external contributors | ⏳ Later | When first external contributor appears |
+| CONTRIBUTORS file | ⏳ Later | When first external contributor appears |
+| Manual PR review policy | ✅ Active | Always |

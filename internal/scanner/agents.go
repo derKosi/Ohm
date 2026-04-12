@@ -694,6 +694,9 @@ func (s *Scanner) scanAgents() {
 
 // hasNpmPackage checks if an npm global package is installed.
 func (s *Scanner) hasNpmPackage(pkg string) bool {
+	if !s.hasCommand("npm") {
+		return false
+	}
 	out, err := s.runCommand("npm", "list", "-g", pkg, "--depth=0")
 	if err != nil {
 		return false
@@ -718,6 +721,9 @@ func (s *Scanner) hasPipPackage(pkg string) bool {
 
 // hasBrewPackage checks if a Homebrew package is installed.
 func (s *Scanner) hasBrewPackage(pkg string) bool {
+	if !s.hasCommand("brew") {
+		return false
+	}
 	out, err := s.runCommand("brew", "list", pkg)
 	if err != nil {
 		return false
@@ -727,6 +733,9 @@ func (s *Scanner) hasBrewPackage(pkg string) bool {
 
 // hasGoPackage checks if a Go package is installed.
 func (s *Scanner) hasGoPackage(pkg string) bool {
+	if !s.hasCommand("go") {
+		return false
+	}
 	out, err := s.runCommand("go", "list", "-m", pkg)
 	if err != nil {
 		return false

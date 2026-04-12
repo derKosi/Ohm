@@ -104,26 +104,14 @@ func cmdScan() {
 		scanDone <- s.Scan()
 	}()
 
-	// Animation frames — resistance theme ⚡
-	frames := []string{
-		"  ⚡ Ohm  ══════════ Scanning...",
-		"  ⚡ Ohm  ══════════ Scanning. 🔍",
-		"  ⚡ Ohm  ══════════ Scanning.. 🔎",
-		"  ⚡ Ohm  ══════════ Scanning... 🤖",
-		"  ⚡ Ohm  ══════════ Scanning. 🧠",
-		"  ⚡ Ohm  ══════════ Scanning.. 📦",
-		"  ⚡ Ohm  ══════════ Scanning... ⚙️ ",
-	}
-
 	animStyle := lipgloss.NewStyle().Foreground(lipgloss.Color("62"))
 	lockStyle := lipgloss.NewStyle().Foreground(lipgloss.Color("241"))
 
 	var result *model.ScanResult
-	ticker := time.NewTicker(200 * time.Millisecond)
-	frameIdx := 0
+	ticker := time.NewTicker(500 * time.Millisecond)
+	dotCount := 0
 
-	fmt.Print(animStyle.Render("  ⚡ Ohm  ══════════ Initializing..."))
-	fmt.Print("\r")
+	fmt.Print(animStyle.Render("  ⚡ Ohm  ══════════ Scanning"))
 
 loop:
 	for {
@@ -131,14 +119,13 @@ loop:
 		case result = <-scanDone:
 			break loop
 		case <-ticker.C:
-			frameIdx = (frameIdx + 1) % len(frames)
-			fmt.Print("\r" + animStyle.Render(frames[frameIdx]))
+			dotCount++
+			fmt.Print(".")
 		}
 	}
 	ticker.Stop()
 
-	// Clear the animation line
-	fmt.Print("\r" + strings.Repeat(" ", 60) + "\r")
+	fmt.Println(" done.")
 
 	fmt.Println(animStyle.Render("  ───┤   ⚡  O H M     ├───"))
 	fmt.Println(lockStyle.Render("🔒 All scanning is local. No data leaves this machine."))

@@ -43,7 +43,7 @@ You need a commercial license if you want to:
 - Custom integration assistance
 - Indemnification
 
-**Contact:** mathias@kosinski.dev
+**Contact:** mathias.kosinski@gmail.com
 
 ## Why This Model?
 

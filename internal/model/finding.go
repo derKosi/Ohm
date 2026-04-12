@@ -142,6 +142,7 @@ type ScanResult struct {
 	ScannedAt time.Time  `json:"scanned_at"`
 	Platform  string     `json:"platform"`
 	Hostname  string     `json:"hostname"`
+	Warnings  []string   `json:"warnings,omitempty"`
 }
 
 // TotalSize returns the total size of all findings.

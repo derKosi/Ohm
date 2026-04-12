@@ -145,7 +145,7 @@ func (s *Scanner) scanAgents() {
 		{
 			id:         "amazon-q",
 			name:       "Amazon Q Developer",
-			configDirs: []string{"~/.amazon-q"},
+			configDirs: []string{"~/.aws/amazonq", "~/.amazon-q"},
 			commands:   []string{"q"},
 			risk:       model.RiskSafe,
 			uninstallCmds: map[string]string{
@@ -703,6 +703,10 @@ func (s *Scanner) hasNpmPackage(pkg string) bool {
 
 // hasPipPackage checks if a pip package is installed.
 func (s *Scanner) hasPipPackage(pkg string) bool {
+	// Check if pip exists first to avoid slow timeouts on machines without pip
+	if !s.hasCommand("pip3") && !s.hasCommand("pip") {
+		return false
+	}
 	for _, cmd := range []string{"pip3", "pip"} {
 		out, err := s.runCommand(cmd, "show", pkg)
 		if err == nil && out != "" {

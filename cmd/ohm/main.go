@@ -76,6 +76,7 @@ func printHelp() {
 	fmt.Println("  ohm scan --env        Also check environment variables")
 	fmt.Println("  ohm scan --shell      Also check shell profiles")
 	fmt.Println("  ohm scan --deep       Thorough filesystem crawl")
+	fmt.Println("  ohm scan --all        Enable all opt-in scans (--path, --env, --shell, --deep)")
 	fmt.Println("  ohm scan --no-tui     Text output (no TUI)")
 	fmt.Println("  ohm generate          Generate cleanup script from last scan")
 	fmt.Println("  ohm stragglers        Scan for leftover files only")
@@ -88,11 +89,12 @@ func printHelp() {
 }
 
 func cmdScan() {
+	allOptIn := hasFlag("--all")
 	opts := scanner.Options{
-		ScanPATH:  hasFlag("--path"),
-		ScanENV:   hasFlag("--env"),
-		ScanShell: hasFlag("--shell"),
-		ScanDeep:  hasFlag("--deep"),
+		ScanPATH:  hasFlag("--path") || allOptIn,
+		ScanENV:   hasFlag("--env") || allOptIn,
+		ScanShell: hasFlag("--shell") || allOptIn,
+		ScanDeep:  hasFlag("--deep") || allOptIn,
 	}
 
 	// Run scan with animated progress
@@ -437,7 +439,15 @@ func (a *TUIApp) View() string {
 	sb.WriteString(lipgloss.NewStyle().Foreground(lipgloss.Color("62")).Render("  ───┤   ⚡  O H M     ├───"))
 	sb.WriteString("\n")
 	sb.WriteString(helpStyle("🔒 All scanning is local. No data leaves this machine."))
-	sb.WriteString("\n\n")
+	sb.WriteString("\n")
+
+	// Platform warnings (e.g. WSL detected)
+	warnStyle := lipgloss.NewStyle().Foreground(lipgloss.Color("214"))
+	for _, w := range a.result.Warnings {
+		sb.WriteString(warnStyle.Render("⚠️  " + w))
+		sb.WriteString("\n")
+	}
+	sb.WriteString("\n")
 
 	// --- Scrollable Item List ---
 	catStyle := lipgloss.NewStyle().Bold(true).Foreground(lipgloss.Color("86"))
@@ -646,6 +656,14 @@ func printScanResult(result *model.ScanResult) {
 	}
 
 	fmt.Printf("Total: %d items (%s)\n", result.Count(), model.FormatBytes(result.TotalSize()))
+
+	if len(result.Warnings) > 0 {
+		fmt.Println()
+		for _, w := range result.Warnings {
+			fmt.Printf("⚠️  %s\n", w)
+		}
+	}
+
 	fmt.Println()
 	fmt.Println("Run 'ohm scan' (without --no-tui) for interactive selection.")
 	fmt.Println("Run 'ohm generate' to create a cleanup script from the last scan.")

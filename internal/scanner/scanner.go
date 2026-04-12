@@ -2,6 +2,7 @@ package scanner
 
 import (
 	"os"
+	"os/exec"
 	"path/filepath"
 	"runtime"
 	"sync"
@@ -71,12 +72,21 @@ func (s *Scanner) Scan() *model.ScanResult {
 		s.scanShellProfiles()
 	}
 
-	return &model.ScanResult{
+	// Dedup across categories: if a config dir finding's path is already covered
+	// by a more specific finding (e.g. Ollama in runtimes + config dirs), remove the duplicate.
+	s.dedupFindings()
+
+	result := &model.ScanResult{
 		Findings:  s.findings,
 		ScannedAt: time.Now(),
 		Platform:  runtime.GOOS + "/" + runtime.GOARCH,
 		Hostname:  hostname,
 	}
+
+	// Platform-specific warnings
+	s.detectPlatformWarnings(result)
+
+	return result
 }
 
 // addFinding safely adds a finding.
@@ -136,4 +146,52 @@ func (s *Scanner) hasCommand(name string) bool {
 // runCommand runs a command and returns output.
 func (s *Scanner) runCommand(name string, args ...string) (string, error) {
 	return platform.RunCommand(name, args...)
+}
+
+// dedupFindings removes config-dir findings that duplicate a more specific category finding.
+// For example, Ollama may appear in both Model Runtimes and Config & Data Dirs.
+// We keep the more specific one (runtimes) and drop the config-dir duplicate.
+func (s *Scanner) dedupFindings() {
+	// Build a set of config paths from non-config-dir findings
+	pathOwners := make(map[string]string) // path -> finding ID
+	for _, f := range s.findings {
+		if f.Category == model.CatConfigs {
+			continue
+		}
+		for _, p := range f.ConfigPaths {
+			pathOwners[p] = f.ID
+		}
+	}
+
+	// Now filter config-dir findings: remove those whose paths are all covered by another category
+	var deduped []model.Finding
+	for _, f := range s.findings {
+		if f.Category != model.CatConfigs {
+			deduped = append(deduped, f)
+			continue
+		}
+		// Check if all config paths are owned by another finding
+		allDupe := len(f.ConfigPaths) > 0
+		for _, p := range f.ConfigPaths {
+			if _, owned := pathOwners[p]; !owned {
+				allDupe = false
+				break
+			}
+		}
+		if !allDupe {
+			deduped = append(deduped, f)
+		}
+	}
+	s.findings = deduped
+}
+
+// detectPlatformWarnings adds informational warnings about the scan environment.
+func (s *Scanner) detectPlatformWarnings(result *model.ScanResult) {
+	// Windows: detect WSL and suggest scanning inside it too
+	if s.os == platform.OSWindows {
+		if _, err := exec.LookPath("wsl.exe"); err == nil {
+			result.Warnings = append(result.Warnings,
+				"WSL detected. Ohm cannot scan inside WSL from Windows. Run \"ohm scan\" inside WSL for a complete picture.")
+		}
+	}
 }

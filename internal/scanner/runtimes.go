@@ -6,6 +6,7 @@ import (
 	"strings"
 
 	"github.com/derKosi/Ohm/internal/model"
+	"github.com/derKosi/Ohm/internal/platform"
 )
 
 // scanRuntimes detects AI model runtimes.
@@ -57,9 +58,13 @@ func (s *Scanner) scanRuntimes() {
 		{
 			id:   "lm-studio",
 			name: "LM Studio",
-			configDirs: []string{
-				"~/.cache/lm-studio",
-			},
+			configDirs: func() []string {
+				dirs := []string{"~/.cache/lm-studio"}
+				if ld := platform.LocalAppData(); ld != "" {
+					dirs = append(dirs, filepath.Join(ld, "LM Studio"))
+				}
+				return dirs
+			}(),
 			commands: []string{"lm-studio", "lms"},
 			risk:     model.RiskSafe,
 			uninstallCmds: map[string]string{

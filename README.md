@@ -237,6 +237,7 @@ ohm scan --path       # Also check PATH for AI tool entries
 ohm scan --env        # Also check environment variables
 ohm scan --shell      # Also check shell profiles
 ohm scan --deep       # Thorough filesystem crawl
+ohm scan --all        # Enable all opt-in scans (path + env + shell + deep)
 ohm scan --no-tui     # Text output (no TUI)
 ohm scan --json       # JSON output for scripting/CI
 ohm generate          # Generate cleanup script from last selection

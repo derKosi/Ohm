@@ -89,139 +89,109 @@ Ohm uses two detection layers:
 
 ## How It Works
 
-### Real output from a Windows 11 machine:
-
-```
-C:\AI> ohm scan --no-tui
-
-  ───┤   ⚡  O H M     ├───
-🤖 Agents & Harnesses (9 found, 2.6 GB)
-   ⚠️  pi (Coding Agent)              15.3 MB    C:\Users\user\.pi
-   🔑 Claude Code                    407.2 MB   C:\Users\user\.claude
-      Aider                          0 B        (binary found in PATH)
-   🔑 Codex CLI (OpenAI)             138.6 MB   C:\Users\user\.codex
-   🔑 Gemini CLI (Google)            725.3 MB   C:\Users\user\.gemini
-      Mistral Vibe                   1.9 MB     C:\Users\user\.vibe
-   ⚠️  PaperclipAI                    0 B        C:\Users\user\.paperclip
-      OpenCode                       0 B        (binary found in PATH)
-   🔑 Continue                       1.4 GB     C:\Users\user\.continue
-
-🖥️ AI Editors & IDEs (1 found, 82.4 KB)
-   ⚠️  Cursor IDE                     82.4 KB    C:\Users\user\.cursor
-
-📦 SDKs & Frameworks (3 found, 0 B)
-      HuggingFace Transformers       0 B
-      OpenAI SDK                     0 B
-   ⚠️  Playwright (AI-adjacent)       0 B
-
-📄 Agent Config & Instructions (1 found, 10.7 KB)
-   ⚠️  Agent Instruction Files        10.7 KB    (scattered across projects)
-
-🧠 Agent Memory & Sessions (4 found, 1.3 GB)
-   🔑 Claude Code Memory             407.1 MB   C:\Users\user\.claude
-      Mistral Vibe History           6.6 KB     C:\Users\user\.vibe\vibehistory
-   🔑 PaperclipAI Context            213.3 MB   C:\Users\user\.paperclip
-   ⚠️  Gemini CLI History             725.3 MB   C:\Users\user\.gemini
-
-🔌 MCP Configurations (1 found, 22 B)
-   🔑 MCP Configuration Files        22 B
-
-🧩 Plugins & Extensions (1 found)
-     - pi skill: paperclip
-     - pi skill: para-memory-files
-
-📁 Config & Data Dirs (9 found, 2.6 GB)
-   🔑 Claude Config                  407.1 MB
-   🔑 Gemini CLI Config              725.3 MB
-   🔑 Continue Config                1.4 GB
-   ...
-
-Total: 31 items (6.6 GB)
-```
-
-### Real output from a Linux machine:
-
-```
-$ ohm scan --no-tui
-
-  ───┤   ⚡  O H M     ├───
-🤖 Agents & Harnesses (5 found, 13.3 GB)
-   ⚠️  pi (Coding Agent)              92.3 MB    /home/user/.pi
-   🔑 Claude Code                    278 B      /home/user/.claude, /home/user/.claude.json
-   🔑 Gemini CLI (Google)            5.3 MB     /home/user/.gemini
-      Mistral Vibe                   523.0 KB   /home/user/.vibe
-   ⚠️  PaperclipAI                    13.2 GB    /home/user/.paperclip
-
-⚙️ Model Runtimes (1 found, 261.6 MB)
-      Ollama                         261.6 MB   /usr/share/ollama
-
-💾 Model Caches (1 found, 1.2 GB)
-      Playwright Browsers            1.2 GB     /home/user/.cache/ms-playwright
-
-📄 Agent Config & Instructions (1 found, 55.8 KB)
-   ⚠️  Agent Instruction Files        55.8 KB    (scattered across projects)
-
-🧠 Agent Memory & Sessions (4 found, 13.2 GB)
-   🔑 Claude Code Memory             242 B      /home/user/.claude
-      Mistral Vibe History           5.0 KB     /home/user/.vibe/vibehistory
-   🔑 PaperclipAI Context            13.2 GB    /home/user/.paperclip
-   ⚠️  Gemini CLI History             5.3 MB     /home/user/.gemini
-
-🧩 Plugins & Extensions (1 found, 4.3 KB)
-   ⚠️  AI Plugins & Extensions        4.3 KB     (see sub-items)
-
-📁 Config & Data Dirs (6 found, 13.3 GB)
-   🔑 Claude Config                  242 B      /home/user/.claude
-   🔑 Claude Config (JSON)           36 B       /home/user/.claude.json
-   ⚠️  pi Config                      92.3 MB    /home/user/.pi
-   ⚠️  Gemini CLI Config              5.3 MB     /home/user/.gemini
-      Mistral Vibe Config            523.0 KB   /home/user/.vibe
-   🔑 PaperclipAI Config             13.2 GB    /home/user/.paperclip
-
-Total: 19 items (41.3 GB)
-```
-
-### Interactive TUI mode (press space to select, g to generate script):
+### Linux TUI (interactive mode):
 
 ```
   ───┤   ⚡  O H M     ├───
 🔒 All scanning is local. No data leaves this machine.
 
-🤖 Agents & Harnesses (5 found, 13.3 GB)
-  [ ] ⚠️  pi (Coding Agent)              92.3 MB    /home/user/.pi
-  [ ] 🔑 Claude Code                    278 B      /home/user/.claude, /home/user/.claude.json
-  [ ] 🔑 Gemini CLI (Google)            5.3 MB     /home/user/.gemini
-  [ ]    Mistral Vibe                   523.0 KB   /home/user/.vibe
-  [x] ⚠️  PaperclipAI                    13.2 GB    /home/user/.paperclip
+🤖 Agents & Harnesses (5 found, 13.5 GB)
+> [ ] ⚠️  pi (Coding Agent)              92.8 MB    /home/Kosi/.pi
+  [ ] 🔑 Claude Code                    278 B      /home/Kosi/.claude, /home/Kosi/.claude.json
+  [ ] 🔑 Gemini CLI (Google)            5.3 MB     /home/Kosi/.gemini
+  [ ]    Mistral Vibe                   523.0 KB   /home/Kosi/.vibe
+  [x] ⚠️  PaperclipAI                    13.4 GB    /home/Kosi/.paperclip
 
 ⚙️ Model Runtimes (1 found, 261.6 MB)
   [ ]    Ollama                         261.6 MB   /usr/share/ollama
 
 💾 Model Caches (1 found, 1.2 GB)
-  [ ]    Playwright Browsers            1.2 GB     /home/user/.cache/ms-playwright
+  [ ]    Playwright Browsers            1.2 GB     /home/Kosi/.cache/ms-playwright
 
 📄 Agent Config & Instructions (1 found, 55.8 KB)
   [ ] ⚠️  Agent Instruction Files        55.8 KB    (scattered across projects)
 
-🧠 Agent Memory & Sessions (4 found, 13.2 GB)
-  [ ] 🔑 Claude Code Memory             242 B      /home/user/.claude
-  [ ]    Mistral Vibe History           5.0 KB     /home/user/.vibe/vibehistory
-  [x] 🔑 PaperclipAI Context            13.2 GB    ...text.json, /home/user/.paperclip/instances
-  [ ] ⚠️  Gemini CLI History             5.3 MB     /home/user/.gemini
+🧠 Agent Memory & Sessions (4 found, 13.4 GB)
+  [ ] 🔑 Claude Code Memory             242 B      /home/Kosi/.claude
+  [ ]    Mistral Vibe History           5.0 KB     /home/Kosi/.vibe/vibehistory
+  [x] 🔑 PaperclipAI Context            13.4 GB    ...text.json, /home/Kosi/.paperclip/instances
+  [ ] ⚠️  Gemini CLI History             5.3 MB     /home/Kosi/.gemini
 
 🧩 Plugins & Extensions (1 found, 4.3 KB)
   [ ] ⚠️  AI Plugins & Extensions        4.3 KB     (see sub-items)
 
-📁 Config & Data Dirs (6 found, 13.3 GB)
-  [ ] 🔑 Claude Config                  242 B      /home/user/.claude
-  [ ] 🔑 Claude Config (JSON)           36 B       /home/user/.claude.json
-  [ ] ⚠️  pi Config                      92.3 MB    /home/user/.pi
-  [ ] ⚠️  Gemini CLI Config              5.3 MB     /home/user/.gemini
-  [ ]    Mistral Vibe Config            523.0 KB   /home/user/.vibe
-> [x] 🔑 PaperclipAI Config             13.2 GB    /home/user/.paperclip
+📁 Config & Data Dirs (6 found, 13.5 GB)
+  [ ] 🔑 Claude Config                  242 B      /home/Kosi/.claude
+  [ ] 🔑 Claude Config (JSON)           36 B       /home/Kosi/.claude.json
+  [ ] ⚠️  pi Config                      92.8 MB    /home/Kosi/.pi
+  [ ] ⚠️  Gemini CLI Config              5.3 MB     /home/Kosi/.gemini
+  [ ]    Mistral Vibe Config            523.0 KB   /home/Kosi/.vibe
+  [x] 🔑 PaperclipAI Config             13.4 GB    /home/Kosi/.paperclip
 
 
-Total: 19 items (41.3 GB) | Selected: 3 items (39.6 GB)
+Total: 19 items (41.8 GB) | Selected: 3 items (40.1 GB)
+↑/k up • ↓/j down • pgup/pgdn • space select • a toggle all • g generate • q quit
+MIT License © 2026 Mathias Kosinski · Built with Pi Harness + GLM-5.1
+```
+
+### Windows 11 TUI (interactive mode):
+
+```
+  ───┤   ⚡  O H M     ├───
+🔒 All scanning is local. No data leaves this machine.
+
+🤖 Agents & Harnesses (9 found, 2.6 GB)
+  [ ] ⚠️  pi (Coding Agent)              15.3 MB    C:\Users\root\.pi
+  [ ] 🔑 Claude Code                    407.2 MB   ...s\root\.claude, C:\Users\root\.claude.json
+  [ ] 🔑 Codex CLI (OpenAI)             138.6 MB   C:\Users\root\.codex
+> [ ] 🔑 Gemini CLI (Google)            725.3 MB   C:\Users\root\.gemini
+  [ ]    Aider                          0 B        (binary found in PATH)
+  [ ]    Mistral Vibe                   1.9 MB     C:\Users\root\.vibe
+  [ ] ⚠️  PaperclipAI                    0 B        C:\Users\root\.paperclip
+  [ ]    OpenCode                       0 B        (binary found in PATH)
+  [ ] 🔑 Continue                       1.4 GB     C:\Users\root\.continue
+
+🖥️ AI Editors & IDEs (1 found, 82.4 KB)
+  [ ] ⚠️  Cursor IDE                     82.4 KB    C:\Users\root\.cursor
+
+⚙️ Model Runtimes (1 found, 0 B)
+  [ ]    LM Studio                      0 B
+
+📦 SDKs & Frameworks (3 found, 0 B)
+  [ ]    HuggingFace Transformers       0 B
+  [ ]    OpenAI SDK                     0 B
+  [ ] ⚠️  Playwright (AI-adjacent)       0 B
+
+💾 Model Caches (1 found, 80 B)
+  [ ]    HuggingFace Hub Cache          80 B       C:\Users\root\.cache\huggingface
+
+📄 Agent Config & Instructions (1 found, 10.7 KB)
+  [ ] ⚠️  Agent Instruction Files        10.7 KB    (scattered across projects)
+
+🧠 Agent Memory & Sessions (4 found, 1.3 GB)
+  [ ] 🔑 Claude Code Memory             407.1 MB   C:\Users\root\.claude
+  [ ]    Mistral Vibe History           6.6 KB     C:\Users\root\.vibe\vibehistory
+  [ ] 🔑 PaperclipAI Context            213.3 MB   ...t.json, C:\Users\root\.paperclip\instances
+  [ ] ⚠️  Gemini CLI History             725.3 MB   C:\Users\root\.gemini
+
+🔌 MCP Configurations (1 found, 22 B)
+  [ ] 🔑 MCP Configuration Files        22 B       (scattered across projects)
+
+🧩 Plugins & Extensions (1 found, 1.2 KB)
+  [ ] ⚠️  AI Plugins & Extensions        1.2 KB     (see sub-items)
+
+📁 Config & Data Dirs (9 found, 2.6 GB)
+  [ ] 🔑 Claude Config                  407.1 MB   C:\Users\root\.claude
+  [ ] 🔑 Claude Config (JSON)           53.6 KB    C:\Users\root\.claude.json
+  [ ] ⚠️  pi Config                      15.3 MB    C:\Users\root\.pi
+  [ ] ⚠️  Codex CLI Config               138.6 MB   C:\Users\root\.codex
+  [ ] ⚠️  Cursor Config                  82.4 KB    C:\Users\root\.cursor
+  [ ] ⚠️  Gemini CLI Config              725.3 MB   C:\Users\root\.gemini
+  [ ] 🔑 Continue Config                1.4 GB     C:\Users\root\.continue
+  [ ]    Mistral Vibe Config            1.9 MB     C:\Users\root\.vibe
+> [ ] 🔑 PaperclipAI Config             0 B        C:\Users\root\.paperclip
+
+Total: 31 items (6.6 GB) | Selected: 0 items (0 B)
 ↑/k up • ↓/j down • pgup/pgdn • space select • a toggle all • g generate • q quit
 MIT License © 2026 Mathias Kosinski · Built with Pi Harness + GLM-5.1
 ```
@@ -252,7 +222,7 @@ rm -rf ~/.codex
 ## Installation
 
 ```bash
-# From source (requires Go 1.22+)
+# From source (requires Go 1.24+)
 go install github.com/derKosi/Ohm@latest
 
 # Or download binary from GitHub releases
@@ -291,7 +261,7 @@ Ohm ships with a built-in database of 84+ known AI tools. Custom YAML signatures
 
 | Component | Choice |
 |-----------|--------|
-| Language | Go 1.22+ |
+| Language | Go 1.24+ |
 | TUI | [Bubble Tea](https://github.com/charmbracelet/bubbletea) |
 | Styling | [Lip Gloss](https://github.com/charmbracelet/lipgloss) |
 | CLI | Built-in (no framework) |
@@ -307,8 +277,6 @@ Ohm uses the following open-source libraries:
 |---------|---------|--------|
 | [Bubble Tea](https://github.com/charmbracelet/bubbletea) | MIT | TUI framework |
 | [Lip Gloss](https://github.com/charmbracelet/lipgloss) | MIT | Terminal styling |
-| [Bubbles](https://github.com/charmbracelet/bubbles) | MIT | TUI components |
-| [yaml.v3](https://github.com/go-yaml/yaml) | Apache 2.0 | YAML parsing |
 
 ## License
 

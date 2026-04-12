@@ -100,65 +100,56 @@ func cmdScan() {
 		ScanDeep:  hasFlag("--deep") || allOptIn,
 	}
 
-	// Run scan with animated progress
-	scanDone := make(chan *model.ScanResult, 1)
-	go func() {
-		s := scanner.New(opts)
-		scanDone <- s.Scan()
-	}()
+	// JSON or no-TUI mode: scan with simple dot animation
+	if hasFlag("--json") || hasFlag("--no-tui") || !isTerminal() {
+		scanDone := make(chan *model.ScanResult, 1)
+		go func() {
+			s := scanner.New(opts)
+			scanDone <- s.Scan()
+		}()
 
-	animStyle := lipgloss.NewStyle().Foreground(lipgloss.Color("62"))
-	lockStyle := lipgloss.NewStyle().Foreground(lipgloss.Color("241"))
+		animStyle := lipgloss.NewStyle().Foreground(lipgloss.Color("62"))
+		fmt.Print(animStyle.Render("  ⚡ Ohm  ══════════ Scanning"))
 
-	var result *model.ScanResult
-	ticker := time.NewTicker(500 * time.Millisecond)
-	dotCount := 0
-
-	fmt.Print(animStyle.Render("  ⚡ Ohm  ══════════ Scanning"))
-
-loop:
-	for {
-		select {
-		case result = <-scanDone:
-			break loop
-		case <-ticker.C:
-			dotCount++
-			fmt.Print(".")
+		var result *model.ScanResult
+		ticker := time.NewTicker(500 * time.Millisecond)
+	loop:
+		for {
+			select {
+			case result = <-scanDone:
+				break loop
+			case <-ticker.C:
+				fmt.Print(".")
+			}
 		}
-	}
-	ticker.Stop()
+		ticker.Stop()
+		fmt.Println(" done.")
 
-	fmt.Println(" done.")
+		if result.Count() == 0 {
+			fmt.Println("No AI software found on this system.")
+			return
+		}
 
-	fmt.Println(animStyle.Render("  ───┤   ⚡  O H M     ├───"))
-	fmt.Println(lockStyle.Render("🔒 All scanning is local. No data leaves this machine."))
-	fmt.Println()
+		// Save state
+		state, _ := model.LoadState()
+		state.LastScan = result.ScannedAt
+		state.Findings = result.Findings
+		state.Save()
 
-	if result.Count() == 0 {
-		fmt.Println("No AI software found on this system.")
-		return
-	}
+		if hasFlag("--json") {
+			outputJSON(result)
+			return
+		}
 
-	// Save state
-	state, _ := model.LoadState()
-	state.LastScan = result.ScannedAt
-	state.Findings = result.Findings
-	state.Save()
-
-	if hasFlag("--json") {
-		outputJSON(result)
-		return
-	}
-
-	if hasFlag("--no-tui") || !isTerminal() {
 		printScanResult(result)
-	} else {
-		app := NewTUIApp(result, generator.Generate)
-		p := tea.NewProgram(app, tea.WithAltScreen())
-		if _, err := p.Run(); err != nil {
-			fmt.Fprintf(os.Stderr, "TUI error: %v\n", err)
-			printScanResult(result)
-		}
+		return
+	}
+
+	// TUI mode: Bubble Tea runs the scan with built-in animation
+	app := NewTUIScanner(opts, generator.Generate)
+	p := tea.NewProgram(app, tea.WithAltScreen())
+	if _, err := p.Run(); err != nil {
+		fmt.Fprintf(os.Stderr, "TUI error: %v\n", err)
 	}
 }
 
@@ -258,8 +249,16 @@ var titleStyle = lipgloss.NewStyle().
 
 type GenerateFunc func(*model.ScanResult) (string, error)
 
+// scanCompleteMsg is sent when the background scan finishes.
+type scanCompleteMsg struct{ result *model.ScanResult }
+
+// tickMsg is sent on each animation tick while scanning.
+type tickMsg struct{}
+
 // TUIApp with viewport scrolling.
 type TUIApp struct {
+	scanning   bool
+	dotCount   int
 	result     *model.ScanResult
 	flatItems  []*model.Finding
 	cursor     int
@@ -276,6 +275,15 @@ const (
 	footerLines = 4 // totals + blank + keys + blank
 )
 
+// NewTUIScanner creates a TUI that runs the scan with a spinner.
+func NewTUIScanner(opts scanner.Options, genFn GenerateFunc) *TUIApp {
+	return &TUIApp{
+		scanning: true,
+		generate: genFn,
+	}
+}
+
+// NewTUIApp creates a TUI with pre-loaded results.
 func NewTUIApp(result *model.ScanResult, genFn GenerateFunc) *TUIApp {
 	var flat []*model.Finding
 	for i := range result.Findings {
@@ -288,9 +296,61 @@ func NewTUIApp(result *model.ScanResult, genFn GenerateFunc) *TUIApp {
 	}
 }
 
-func (a *TUIApp) Init() tea.Cmd { return nil }
+func (a *TUIApp) Init() tea.Cmd {
+	if a.scanning {
+		return tea.Batch(a.startScan(), a.tick())
+	}
+	return nil
+}
+
+func (a *TUIApp) startScan() tea.Cmd {
+	return func() tea.Msg {
+		s := scanner.New(scanner.Options{
+			ScanPATH:  hasFlag("--path") || hasFlag("--all"),
+			ScanENV:   hasFlag("--env") || hasFlag("--all"),
+			ScanShell: hasFlag("--shell") || hasFlag("--all"),
+			ScanDeep:  hasFlag("--deep") || hasFlag("--all"),
+		})
+		return scanCompleteMsg{result: s.Scan()}
+	}
+}
+
+func (a *TUIApp) tick() tea.Cmd {
+	return tea.Tick(300*time.Millisecond, func(_ time.Time) tea.Msg { return tickMsg{} })
+}
 
 func (a *TUIApp) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
+	// Handle scan-in-progress state
+	if a.scanning {
+		switch msg := msg.(type) {
+		case scanCompleteMsg:
+			a.scanning = false
+			a.result = msg.result
+			var flat []*model.Finding
+			for i := range a.result.Findings {
+				flat = append(flat, &a.result.Findings[i])
+			}
+			a.flatItems = flat
+			// Save state
+			state, _ := model.LoadState()
+			state.LastScan = a.result.ScannedAt
+			state.Findings = a.result.Findings
+			state.Save()
+			return a, nil
+		case tea.WindowSizeMsg:
+			a.width = msg.Width
+			a.height = msg.Height
+		case tea.KeyMsg:
+			if msg.String() == "q" || msg.String() == "ctrl+c" {
+				return a, tea.Quit
+			}
+		case tickMsg:
+			a.dotCount++
+			return a, a.tick()
+		}
+		return a, nil
+	}
+
 	switch msg := msg.(type) {
 	case tea.WindowSizeMsg:
 		a.width = msg.Width
@@ -423,6 +483,12 @@ func (a *TUIApp) clampScroll() {
 }
 
 func (a *TUIApp) View() string {
+	// Scanning state — show spinner
+	if a.scanning {
+		dots := strings.Repeat(".", a.dotCount%20)
+		return "\n  ⚡ Ohm  ══════════ Scanning" + dots + "\n\n  🔒 All scanning is local. No data leaves this machine.\n"
+	}
+
 	var sb strings.Builder
 
 	// --- Fixed Header ---
@@ -572,7 +638,7 @@ func (a *TUIApp) View() string {
 
 	sb.WriteString(helpStyle(fmt.Sprintf("↑/k up • ↓/j down • pgup/pgdn • space select • a toggle all • g generate • q quit%s", scrollInfo)))
 	sb.WriteString("\n")
-	sb.WriteString(helpStyle("MIT License © 2026 Mathias Kosinski · Built with Pi Harness + GLM-5.1"))
+	sb.WriteString(helpStyle(fmt.Sprintf("Ohm v%s · MIT License © 2026 Mathias Kosinski · Updates: github.com/derKosi/Ohm/releases", version)))
 	sb.WriteString("\n")
 
 	return sb.String()

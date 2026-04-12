@@ -31,3 +31,6 @@ ohm-cleanup-*.bat
 # Environment files (may contain API keys)
 .env
 .env.*
+
+# Marketing drafts
+marketing/

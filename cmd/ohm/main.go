@@ -483,10 +483,19 @@ func (a *TUIApp) clampScroll() {
 }
 
 func (a *TUIApp) View() string {
-	// Scanning state — show spinner
+	// Scanning state — rotating animation
 	if a.scanning {
-		dots := strings.Repeat(".", a.dotCount%20)
-		return "\n  ⚡ Ohm  ══════════ Scanning" + dots + "\n\n  🔒 All scanning is local. No data leaves this machine.\n"
+		frames := []string{
+			"  ⚡ Ohm  ══════════ Scanning. 🔍",
+			"  ⚡ Ohm  ══════════ Scanning.. 🔎",
+			"  ⚡ Ohm  ══════════ Scanning... 🤖",
+			"  ⚡ Ohm  ══════════ Scanning. 🧠",
+			"  ⚡ Ohm  ══════════ Scanning.. 📦",
+			"  ⚡ Ohm  ══════════ Scanning... ⚙️ ",
+		}
+		frame := frames[a.dotCount%len(frames)]
+		styled := lipgloss.NewStyle().Foreground(lipgloss.Color("62")).Render(frame)
+		return "\n" + styled + "\n\n  🔒 All scanning is local. No data leaves this machine.\n"
 	}
 
 	var sb strings.Builder

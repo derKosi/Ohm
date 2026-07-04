@@ -697,6 +697,36 @@ func (s *Scanner) scanAgents() {
 				"windows": "# Cursor Agent CLI: remove the 'cursor-agent' binary",
 			},
 		},
+
+		// ── Doc-claimed-but-missing: was in README/SIGNATURES but never implemented ──
+		{
+			id:   "antigravity",
+			name: "Antigravity (Google)",
+			configDirs: []string{
+				"~/.antigravity",
+				"~/AppData/Roaming/Antigravity",
+			},
+			risk: model.RiskCaution,
+			uninstallCmds: map[string]string{
+				"linux":   "# Antigravity: remove app + rm -rf ~/.antigravity",
+				"macos":   "# Antigravity: remove /Applications/Antigravity.app + rm -rf ~/.antigravity",
+				"windows": "# Antigravity: uninstall via Add/Remove Programs + Remove-Item ~/.antigravity,~/AppData/Roaming/Antigravity,~/AppData/Local/Programs/Antigravity* -Recurse -Force",
+			},
+		},
+		{
+			id:   "zenflow",
+			name: "Zenflow (Zencoder)",
+			configDirs: []string{
+				"~/AppData/Roaming/forgoodai/zenflow",
+				"~/AppData/Local/zenflow-desktop-updater",
+			},
+			risk: model.RiskCaution,
+			uninstallCmds: map[string]string{
+				"linux":   "# Zenflow: remove app + rm -rf ~/.config/zenflow",
+				"macos":   "# Zenflow: remove app + rm -rf ~/Library/Application Support/forgoodai",
+				"windows": "# Zenflow: uninstall via Add/Remove Programs + Remove-Item ~/AppData/Roaming/forgoodai,~/AppData/Local/zenflow-desktop-updater -Recurse -Force",
+			},
+		},
 	}
 
 	for _, agent := range agents {

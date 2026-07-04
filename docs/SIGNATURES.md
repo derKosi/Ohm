@@ -86,8 +86,10 @@ Each entry specifies detection rules, config locations, and uninstall commands p
 - **Uninstall:** Remove application + config dirs
 
 ### Augment
-- **Config:** VS Code / JetBrains extension
-- **Uninstall:** Remove extension
+- **Install:** VS Code extension (`augment.vscode-augment`) / JetBrains plugin
+- **Config:** VS Code extension storage; per-project `.augmentignore`
+- **Note:** Augment Code — context engine + coding agent for large codebases
+- **Uninstall:** `code --uninstall-extension augment.vscode-augment`
 
 ### OpenCode
 - **Install:** `go install` + `npm i -g opencode-ai`
@@ -102,9 +104,15 @@ Each entry specifies detection rules, config locations, and uninstall commands p
 - **Uninstall:** `npm uninstall -g paperclipai && rm -rf ~/.paperclip`
 
 ### Antigravity
-- **Install:** Unknown (research needed)
-- **Config:** Research needed
-- **Detection:** Look for binary in PATH, config dir patterns
+- **Install:** Google Antigravity agentic IDE (desktop installer)
+- **App (Windows):** `~/AppData/Local/Programs/Antigravity` (and `Antigravity IDE` variant)
+- **Config:** `~/.antigravity/` (argv.json, extensions), user data `~/AppData/Roaming/Antigravity/`
+- **Note:** Google's cloud-agentic IDE; stores Google login + agent state
+
+### Zenflow (Zencoder)
+- **Install:** Zenflow desktop app (macOS/Windows installer)
+- **Config:** `~/AppData/Roaming/forgoodai/zenflow/` (user data), `~/AppData/Local/zenflow-desktop-updater/` (app/updater)
+- **Note:** Multi-agent orchestration harness (plans/implements/tests/reviews); connects GitHub, Jira, Linear
 
 ### Claw Code (oh-my-codex)
 - **Binary:** `claw` in PATH

@@ -23,6 +23,7 @@ var vscodeAIExtensions = map[string]string{
 	"sourcegraph.cody-ai":               "Cody (Sourcegraph)",
 	"Tabnine.tabnine-vscode":            "Tabnine",
 	"amazonwebservices.amazon-q-vscode": "Amazon Q",
+	"augment.vscode-augment":           "Augment Code",
 	"seanvscode.codegpt":                "CodeGPT",
 	"FittenTech.fitten-code":            "Fitten Code",
 	"visualstudioexptteam.vscodeintellicode": "IntelliCode",

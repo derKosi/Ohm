@@ -229,6 +229,41 @@ Each entry specifies detection rules, config locations, and uninstall commands p
 - **Config:** `~/.pieces`
 - **Note:** On-device AI development assistant
 
+### MiMo Code (Xiaomi)
+- **Install:** `npm i -g @mimo-ai/cli` (or `curl -fsSL https://mimo.xiaomi.com/install | bash`)
+- **Binary:** `mimo` in PATH
+- **Config:** `~/.config/mimocode/` (global), data in `~/.local/share/mimocode/` (incl. `auth.json`), cache `~/.cache/mimocode/`
+- **Note:** Terminal-native agent built on an OpenCode fork; persistent memory + sessions. Credential-bearing (`auth.json`)
+
+### Amp (Sourcegraph)
+- **Install:** `npm i -g @ampcode/cli` (legacy alias `@sourcegraph/amp`) or brew/choco
+- **Binary:** `amp` in PATH
+- **Config:** `~/.config/amp/` (`settings.json`)
+- **Note:** Agentic coding tool by Sourcegraph, runs in VS Code and the CLI
+
+### Droid (Factory)
+- **Install:** `curl -fsSL https://app.factory.ai/cli | sh`
+- **Binary:** `droid` in PATH
+- **Config:** `~/.factory/` (`settings.json`)
+- **Note:** Factory's multi-model CLI coding agent; requires login
+
+### gptme
+- **Install:** `pip install gptme`
+- **Binary:** `gptme` in PATH
+- **Config:** `~/.config/gptme/`, data `~/.local/share/gptme/`
+- **Note:** Provider-agnostic terminal agent; executes shell/Python (code-running)
+
+### Codebuff
+- **Install:** `npm i -g codebuff`
+- **Binary:** `codebuff` in PATH
+- **Config:** `~/.codebuff/`
+- **Note:** Multi-agent terminal coding assistant
+
+### Cursor Agent CLI (Anysphere)
+- **Install:** `curl https://cursor.com/install -fsSL | bash` (or npm `@nothumanwork/cursor-agents-sdk`)
+- **Binary:** `cursor-agent` in PATH
+- **Note:** Headless/CI agent mode of Cursor; shares `~/.cursor/` with the Cursor IDE
+
 ## 2. AI Editors & IDEs
 
 ### Cursor IDE
@@ -269,6 +304,13 @@ Each entry specifies detection rules, config locations, and uninstall commands p
 - **Install:** VS Code extension, JetBrains plugin, CLI (`gh copilot`)
 - **Config:** Extension settings
 - **Uninstall:** Remove extension/plugin, `gh extension remove github/gh-copilot`
+
+### ZCode (Z.ai / Zhipu)
+- **Install:** Desktop app (macOS `.dmg`, Windows installer; Linux beta)
+- **App:** `/Applications/ZCode.app` (macOS)
+- **Config:** `~/.zcode/` (verified on a real install; contains `coding-plan-cache.json`, `bots-model-cache.v2.json`)
+- **Note:** Official GLM-5.2 coding harness; steerable from WeChat/Feishu/Telegram. Subscription SaaS
+- **Uninstall:** Remove app + `rm -rf ~/.zcode`
 
 ## 3. Model Runtimes
 

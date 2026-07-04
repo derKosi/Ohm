@@ -76,6 +76,22 @@ func (s *Scanner) scanEditors() {
 			},
 		},
 		{
+			id:   "zcode",
+			name: "ZCode (Z.ai / Zhipu)",
+			// ponytail: ~/.zcode verified on a real install (contains coding-plan-cache.json,
+			// bots-model-cache.v2.json); Z.ai does not officially document the path.
+			configDirs: []string{
+				"~/.zcode",
+			},
+			commands: []string{"zcode"},
+			risk:     model.RiskCaution,
+			uninstallCmds: map[string]string{
+				"linux":   "# ZCode: remove package + rm -rf ~/.zcode",
+				"macos":   "rm -rf /Applications/ZCode.app ~/.zcode",
+				"windows": "# ZCode: uninstall via Add/Remove Programs",
+			},
+		},
+		{
 			id:   "jetbrains-ai",
 			name: "JetBrains AI Assistant",
 			configDirs: []string{

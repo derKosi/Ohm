@@ -10,7 +10,7 @@
 
 ### 🧂 Core Strengths (high salt)
 1. **Clear, unique niche** — "Resistance against AGI bloat" — AI software scanner/cleaner. No other tool does this.
-2. **84+ signatures** — detects agents (Claude Code, Cursor, Copilot, Aider, OpenClaw, Devin, Replit, etc.), editors (Windsurf, Warp, JetBrains AI, Tabnine, Cody), runtimes (Ollama, LM Studio), VS Code extensions, models, MCP servers, Docker images, SDKs, and more.
+2. **91+ signatures** — detects agents (Claude Code, Cursor, Copilot, Aider, OpenClaw, MiMo Code, ZCode, Devin, Replit, etc.), editors (Windsurf, Warp, JetBrains AI, Tabnine, Cody), runtimes (Ollama, LM Studio), VS Code extensions, models, MCP servers, Docker images, SDKs, and more.
 3. **Privacy-first architecture** — 100% offline, no telemetry, no HTTP client. Explicitly documented as a core differentiator.
 4. **Cross-platform** — Windows, macOS, Linux from a single Go binary.
 5. **Rich TUI** — terminal UI with categories, sizes, uninstall script generation. Polished user experience.
@@ -67,7 +67,7 @@
 ## Metrics Snapshot
 - **Language**: Go (single binary)
 - **Lines**: ~3.7K
-- **Signatures**: 84+ (47 agents, 7 editors, 8 runtimes, 9 SDKs, + ComfyUI, model caches, MCP, Docker, plugins, configs, memory, instructions)
+- **Signatures**: 91+ (53 agents, 8 editors, 8 runtimes, 9 SDKs, + ComfyUI, model caches, MCP, Docker, plugins, configs, memory, instructions)
 - **Platforms**: Windows, macOS, Linux
 - **Tests**: 0 (critical gap)
 - **Binary**: ~3.5MB, zero dependencies

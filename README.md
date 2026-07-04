@@ -57,8 +57,8 @@ This is a deliberate design choice and a core differentiator. If you find networ
 
 | # | Category | What It Finds |
 |---|----------|---------------|
-| 1 | **Agents & Harnesses** | pi, Claude Code, Aider, Continue, Cline, Codex CLI, Amazon Q, Cursor Agent, OpenCode, PaperclipAI, ZenFlow, Antigravity, Mistral Vibe, custom harnesses |
-| 2 | **AI Editors & IDEs** | Cursor, Windsurf, Augment, Zed (AI features), GitHub Copilot |
+| 1 | **Agents & Harnesses** | pi, Claude Code, Aider, Continue, Cline, Codex CLI, Amazon Q, Cursor Agent, OpenCode, PaperclipAI, ZenFlow, Antigravity, Mistral Vibe, MiMo Code, Amp, Droid, gptme, Codebuff, custom harnesses |
+| 2 | **AI Editors & IDEs** | Cursor, Windsurf, Augment, Zed (AI features), GitHub Copilot, ZCode (Z.ai) |
 | 3 | **Model Runtimes** | Ollama, LM Studio, LocalAI, text-generation-webui, llama.cpp, GPT4All, KoboldCpp |
 | 4 | **ComfyUI & Image Models** | ComfyUI install + checkpoints, LoRA adapters, ControlNet, VAEs, CLIP, UNet, embeddings, upscale models, custom nodes |
 | 5 | **SDKs & Frameworks** | PyTorch, TensorFlow, HuggingFace, Anthropic SDK, OpenAI SDK, LangChain, LlamaIndex, Playwright, Selenium |

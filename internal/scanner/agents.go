@@ -620,6 +620,83 @@ func (s *Scanner) scanAgents() {
 				"windows": "npm uninstall -g claude-flow; Remove-Item ~/.claude-flow -Recurse -Force",
 			},
 		},
+
+		// ── 2026 Harness Additions (web-verified signatures) ──────────
+		{
+			id:          "mimo-code",
+			name:        "MiMo Code (Xiaomi)",
+			configDirs:  []string{"~/.config/mimocode"},
+			commands:    []string{"mimo"},
+			npmPackages: []string{"@mimo-ai/cli"},
+			risk:        model.RiskDanger,
+			uninstallCmds: map[string]string{
+				"linux":   "npm uninstall -g @mimo-ai/cli && rm -rf ~/.config/mimocode ~/.local/share/mimocode ~/.cache/mimocode ~/.local/state/mimocode",
+				"macos":   "npm uninstall -g @mimo-ai/cli && rm -rf ~/.config/mimocode ~/.local/share/mimocode ~/.cache/mimocode ~/.local/state/mimocode",
+				"windows": "npm uninstall -g @mimo-ai/cli; Remove-Item ~/.config/mimocode -Recurse -Force",
+			},
+		},
+		{
+			id:          "amp",
+			name:        "Amp (Sourcegraph)",
+			configDirs:  []string{"~/.config/amp"},
+			commands:    []string{"amp"},
+			npmPackages: []string{"@ampcode/cli", "@sourcegraph/amp"},
+			risk:        model.RiskCaution,
+			uninstallCmds: map[string]string{
+				"linux":   "npm uninstall -g @ampcode/cli @sourcegraph/amp && rm -rf ~/.config/amp",
+				"macos":   "npm uninstall -g @ampcode/cli @sourcegraph/amp && rm -rf ~/.config/amp",
+				"windows": "npm uninstall -g @ampcode/cli @sourcegraph/amp; Remove-Item ~/.config/amp -Recurse -Force",
+			},
+		},
+		{
+			id:         "droid",
+			name:       "Droid (Factory)",
+			configDirs: []string{"~/.factory"},
+			commands:   []string{"droid"},
+			risk:       model.RiskCaution,
+			uninstallCmds: map[string]string{
+				"linux":   "# Droid: remove binary + rm -rf ~/.factory",
+				"macos":   "# Droid: remove binary + rm -rf ~/.factory",
+				"windows": "# Droid: remove binary + Remove-Item ~/.factory -Recurse -Force",
+			},
+		},
+		{
+			id:          "gptme",
+			name:        "gptme",
+			configDirs:  []string{"~/.config/gptme"},
+			commands:    []string{"gptme"},
+			pipPackages: []string{"gptme"},
+			risk:        model.RiskCaution,
+			uninstallCmds: map[string]string{
+				"linux":   "pip uninstall gptme && rm -rf ~/.config/gptme ~/.local/share/gptme",
+				"macos":   "pip uninstall gptme && rm -rf ~/.config/gptme ~/.local/share/gptme",
+				"windows": "pip uninstall gptme; Remove-Item ~/.config/gptme -Recurse -Force",
+			},
+		},
+		{
+			id:          "codebuff",
+			name:        "Codebuff",
+			configDirs:  []string{"~/.codebuff"},
+			commands:    []string{"codebuff"},
+			npmPackages: []string{"codebuff"},
+			risk:        model.RiskCaution,
+			uninstallCmds: map[string]string{
+				"linux":   "npm uninstall -g codebuff && rm -rf ~/.codebuff",
+				"macos":   "npm uninstall -g codebuff && rm -rf ~/.codebuff",
+				"windows": "npm uninstall -g codebuff; Remove-Item ~/.codebuff -Recurse -Force",
+			},
+		},
+		{
+			id:       "cursor-agent",
+			name:     "Cursor Agent CLI (Anysphere)",
+			commands: []string{"cursor-agent"},
+			risk:     model.RiskCaution,
+			uninstallCmds: map[string]string{
+				"linux":   "# Cursor Agent CLI: remove the 'cursor-agent' binary",
+				"macos":   "# Cursor Agent CLI: remove the 'cursor-agent' binary",
+				"windows": "# Cursor Agent CLI: remove the 'cursor-agent' binary",
+			},
+		},
 	}
 
 	for _, agent := range agents {

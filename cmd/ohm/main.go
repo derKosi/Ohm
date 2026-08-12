@@ -17,7 +17,11 @@ import (
 	"github.com/derKosi/Ohm/internal/scanner"
 )
 
-var version = "0.1.1"
+var (
+	version = "0.1.1"
+	commit  = "none"
+	date    = "unknown"
+)
 
 func isTerminal() bool {
 	fi, err := os.Stdin.Stat()
@@ -63,7 +67,7 @@ func printVersion() {
 	fmt.Println()
 	fmt.Println("  Resistance against AGI bloat.")
 	fmt.Println()
-	fmt.Printf("  Ohm v%s · AGPL-3.0 © 2026 Mathias Kosinski · Built with Pi Harness + GLM-5.1\n", version)
+	fmt.Printf("  Ohm v%s · AGPL-3.0 © 2026 Mathias Kosinski\n", version)
 	fmt.Println("  github.com/derKosi/Ohm/releases")
 }
 
@@ -89,7 +93,7 @@ func printHelp() {
 	fmt.Println("🔒 Privacy: All scanning is local. No data leaves your machine.")
 	fmt.Println()
 	fmt.Printf("Ohm v%s — github.com/derKosi/Ohm/releases\n", version)
-	fmt.Println("AGPL-3.0 © 2026 Mathias Kosinski · Built with Pi Harness + GLM-5.1")
+	fmt.Println("AGPL-3.0 © 2026 Mathias Kosinski")
 }
 
 func cmdScan() {
@@ -654,7 +658,7 @@ func (a *TUIApp) View() string {
 	sb.WriteString(helpStyle(fmt.Sprintf("↑/k up • ↓/j down • pgup/pgdn • space select • a toggle all • g generate • q quit%s", scrollInfo)))
 	sb.WriteString("\n")
 	sb.WriteString("\n")
-	sb.WriteString(helpStyle(fmt.Sprintf("Ohm v%s · AGPL-3.0 © 2026 Mathias Kosinski · Built with Pi Harness + GLM-5.1 · github.com/derKosi/Ohm/releases", version)))
+	sb.WriteString(helpStyle(fmt.Sprintf("Ohm v%s · AGPL-3.0 © 2026 Mathias Kosinski · github.com/derKosi/Ohm/releases", version)))
 	sb.WriteString("\n")
 
 	return sb.String()

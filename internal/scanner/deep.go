@@ -25,6 +25,7 @@ var deepDirNames = []string{
 // beyond the .gguf / .safetensors already covered by scanModelCaches.
 var deepFileExts = []string{
 	".ckpt", ".pt", ".bin", ".onnx", ".tflite", ".mlmodel",
+	".llamafile", // Mozilla llamafile: single-file portable LLM (no config dir by design)
 }
 
 // scanDeep does a thorough crawl of the user's home directory looking for

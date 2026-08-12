@@ -506,30 +506,6 @@ func (s *Scanner) scanAgents() {
 				"windows": "# NullClaw: remove binary + Remove-Item ~/.nullclaw -Recurse -Force",
 			},
 		},
-		{
-			id:         "moltis",
-			name:       "Moltis (OpenClaw-alt)",
-			configDirs: []string{"~/.moltis"},
-			commands:   []string{"moltis"},
-			risk:       model.RiskSafe,
-			uninstallCmds: map[string]string{
-				"linux":   "# Moltis: remove binary + rm -rf ~/.moltis",
-				"macos":   "# Moltis: remove binary + rm -rf ~/.moltis",
-				"windows": "# Moltis: remove binary + Remove-Item ~/.moltis -Recurse -Force",
-			},
-		},
-		{
-			id:         "clawith",
-			name:       "Clawith (OpenClaw for Teams)",
-			configDirs: []string{"~/.clawith"},
-			commands:   []string{"clawith"},
-			risk:       model.RiskSafe,
-			uninstallCmds: map[string]string{
-				"linux":   "# Clawith: remove binary + rm -rf ~/.clawith",
-				"macos":   "# Clawith: remove binary + rm -rf ~/.clawith",
-				"windows": "# Clawith: remove binary + Remove-Item ~/.clawith -Recurse -Force",
-			},
-		},
 
 		// ── Cloud / SaaS AI Agents ────────────────────────────────────
 		{
@@ -699,34 +675,35 @@ func (s *Scanner) scanAgents() {
 		},
 
 		// ── Doc-claimed-but-missing: was in README/SIGNATURES but never implemented ──
-		{
-			id:   "antigravity",
-			name: "Antigravity (Google)",
-			configDirs: []string{
-				"~/.antigravity",
-				"~/AppData/Roaming/Antigravity",
-			},
-			risk: model.RiskCaution,
-			uninstallCmds: map[string]string{
-				"linux":   "# Antigravity: remove app + rm -rf ~/.antigravity",
-				"macos":   "# Antigravity: remove /Applications/Antigravity.app + rm -rf ~/.antigravity",
-				"windows": "# Antigravity: uninstall via Add/Remove Programs + Remove-Item ~/.antigravity,~/AppData/Roaming/Antigravity,~/AppData/Local/Programs/Antigravity* -Recurse -Force",
-			},
+	{
+		id:   "antigravity",
+		name: "Antigravity (Google)",
+		configDirs: []string{
+			"~/.antigravity",
+			"%APPDATA%/Antigravity",
+			"%LOCALAPPDATA%/Programs/Antigravity",
 		},
-		{
-			id:   "zenflow",
-			name: "Zenflow (Zencoder)",
-			configDirs: []string{
-				"~/AppData/Roaming/forgoodai/zenflow",
-				"~/AppData/Local/zenflow-desktop-updater",
-			},
-			risk: model.RiskCaution,
-			uninstallCmds: map[string]string{
-				"linux":   "# Zenflow: remove app + rm -rf ~/.config/zenflow",
-				"macos":   "# Zenflow: remove app + rm -rf ~/Library/Application Support/forgoodai",
-				"windows": "# Zenflow: uninstall via Add/Remove Programs + Remove-Item ~/AppData/Roaming/forgoodai,~/AppData/Local/zenflow-desktop-updater -Recurse -Force",
-			},
+		risk: model.RiskCaution,
+		uninstallCmds: map[string]string{
+			"linux":   "# Antigravity: remove app + rm -rf ~/.antigravity",
+			"macos":   "# Antigravity: remove /Applications/Antigravity.app + rm -rf ~/.antigravity",
+			"windows": "# Antigravity: uninstall via Add/Remove Programs + Remove-Item $env:APPDATA\\Antigravity,$env:LOCALAPPDATA\\Programs\\Antigravity,$env:USERPROFILE\\.antigravity -Recurse -Force",
 		},
+	},
+	{
+		id:   "zenflow",
+		name: "Zenflow (Zencoder)",
+		configDirs: []string{
+			"%APPDATA%/forgoodai/zenflow",
+			"%LOCALAPPDATA%/zenflow-desktop-updater",
+		},
+		risk: model.RiskCaution,
+		uninstallCmds: map[string]string{
+			"linux":   "# Zenflow: remove app + rm -rf ~/.config/zenflow",
+			"macos":   "# Zenflow: remove app + rm -rf ~/Library/Application Support/forgoodai",
+			"windows": "# Zenflow: uninstall via Add/Remove Programs + Remove-Item $env:APPDATA\\forgoodai,$env:LOCALAPPDATA\\zenflow-desktop-updater -Recurse -Force",
+		},
+	},
 	}
 
 	for _, agent := range agents {

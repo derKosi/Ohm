@@ -332,6 +332,7 @@ Ohm is dual-licensed:
 | [`docs/SIGNATURES.md`](docs/SIGNATURES.md) | Complete AI software signature catalog |
 | [`docs/SALT-ANALYSIS.md`](docs/SALT-ANALYSIS.md) | Value proposition and salt analysis |
 | [`docs/PROJECT-PLAN.md`](docs/PROJECT-PLAN.md) | Architecture, data model, scan pipeline |
+| [`docs/IT-DEPLOYMENT.md`](docs/IT-DEPLOYMENT.md) | Fleet deployment (Intune/SCCM/Ansible/Jamf), licensing for IT, compliance JSON |
 | [`test-fixtures/`](test-fixtures/) | Real-world inventory files for testing |
 | [`COMMERCIAL-LICENSE.md`](COMMERCIAL-LICENSE.md) | Dual-license details and FAQ |
 | [`CONTRIBUTING.md`](CONTRIBUTING.md) | Contribution guidelines and DCO |

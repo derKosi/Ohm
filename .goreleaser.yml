@@ -85,3 +85,11 @@ release:
     ## ⚡ Ohm v{{.Version}}
 
     **Resistance against AGI bloat.** Ohm scans your system for AI-related software, shows what's installed and how much space it eats, and generates a reviewable cleanup script. Ohm never deletes anything itself.
+
+    ### Install
+
+    ```bash
+    curl -fsSL https://github.com/derKosi/Ohm/releases/latest/download/install.sh | sh
+    ```
+  extra_files:
+    - glob: install.sh

@@ -225,19 +225,14 @@ rm -rf ~/.codex
 ## Installation
 
 ```bash
-# macOS
-brew install derKosi/tap/ohm
-
-# Windows
-scoop install ohm
-
-# Linux
+# Linux / macOS (installs to /usr/local/bin or ~/.local/bin)
 curl -fsSL https://github.com/derKosi/Ohm/releases/latest/download/install.sh | sh
 ```
 
 Or download a prebuilt binary directly from the
 [latest release](https://github.com/derKosi/Ohm/releases/latest) — single file,
-no dependencies, no installer, no internet required.
+no dependencies, no installer, no internet required. Windows users: download
+the `Windows_x86_64.zip`, extract `ohm.exe`, and add it to your `PATH`.
 
 <details>
 <summary><b>From source (requires Go 1.24+)</b></summary>

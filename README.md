@@ -2,11 +2,29 @@
 
 **Resistance against AGI bloat.**
 
-Ohm measures what's there — and helps you remove what you don't need.
+A cross-platform TUI that scans your system for AI-related software — agents, model caches, editors, SDKs, credentials — shows what's installed and how much space it eats, and generates a reviewable cleanup script. **Ohm never deletes anything itself.**
 
-A cross-platform (Windows, macOS, Linux) TUI tool that scans your system for AI-related software, shows you what's installed, how much space it eats, and generates an uninstall script you can review before running. **Ohm never deletes anything itself.**
+> **Privacy first.** 100% offline. No telemetry, no phone-home, no cloud. Your AI config files contain API keys and project paths — that data stays on your machine.
 
-> **Privacy first.** Ohm is 100% offline. No telemetry, no phone-home, no cloud. Your AI config files often contain API keys, project paths, and personal instructions. That data stays on your machine. Period.
+### TL;DR
+
+```bash
+# Linux / macOS
+curl -fsSL https://github.com/derKosi/Ohm/releases/latest/download/install.sh | sh
+
+# Windows (PowerShell)
+irm https://github.com/derKosi/Ohm/releases/latest/download/install.ps1 | iex
+```
+
+```bash
+ohm scan          # Interactive TUI — select what you want to remove
+ohm generate      # Writes ohm-cleanup-<date>.sh — review it, then run it
+```
+
+- 🔒 **Offline by design** — no network stack in the codebase. If you find network code, it's a bug.
+- 🔍 **90+ signatures** — Claude Code, Ollama, KTransformers, MLX, Cursor, ComfyUI, HuggingFace caches, llama.cpp, and more.
+- 🚫 **Never executes** — Ohm scans and writes scripts. You decide what runs.
+- 🖥️ **Single binary** — Linux / macOS / Windows, amd64 + arm64, zero dependencies.
 
 ---
 

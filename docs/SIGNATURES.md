@@ -369,6 +369,36 @@ Each entry specifies detection rules, config locations, and uninstall commands p
 - **Config:** usually `~/localai/` or mounted dir
 - **Uninstall:** Remove docker image/container or binary
 
+### llama-cpp-python
+- **Install:** `pip install llama-cpp-python` (builds llama.cpp from source)
+- **Uninstall:** `pip uninstall llama-cpp-python`
+
+### KTransformers
+- **Install:** `pip install ktransformers` (from source for non-AMX CPUs)
+- **What it does:** CPU-GPU heterogeneous offload — runs 600B+ MoE models on consumer hardware
+- **Config:** CLI flags (`--kt-method`, `--kt-weight-path`); no dedicated config dir
+- **Uninstall:** `pip uninstall ktransformers`
+
+### MLX / mlx-lm
+- **Install:** `pip install mlx-lm` (Apple Silicon only) or `uv tool install mlx-lm`
+- **Run:** `python -m mlx_lm generate` / `python -m mlx_lm server`
+- **Uninstall:** `pip uninstall mlx-lm`
+
+### Jan
+- **Install:** Desktop app from jan.ai
+- **Data folder (models, threads, extensions):**
+  - Linux: `~/.local/share/Jan/data`
+  - macOS: `~/Library/Application Support/Jan/data`
+  - Windows: `%APPDATA%\Jan\data`
+- **App config:** `~/.config/Jan/` (Linux), `~/Library/Application Support/Jan/` (macOS), `%APPDATA%\Jan\` (Windows)
+- **Uninstall:** Remove app + data folder
+
+### llamafile
+- **What it is:** Mozilla single-file portable LLM (executable + model + defaults bundled)
+- **Location:** wherever the user downloads it — no config dir by design
+- **Detection:** `*.llamafile` files appear in `--deep` scan results
+- **Uninstall:** Delete the `.llamafile` file(s)
+
 ## 4. ComfyUI & Image Models
 
 ### ComfyUI

@@ -8,6 +8,7 @@ import (
 	"os/exec"
 	"path/filepath"
 	"runtime"
+	"strings"
 	"sync"
 	"time"
 
@@ -26,19 +27,21 @@ type Options struct {
 
 // Scanner discovers AI software on the system.
 type Scanner struct {
-	os       platform.OS
-	home     string
-	opts     Options
-	findings []model.Finding
-	mu       sync.Mutex
+	os        platform.OS
+	home      string
+	opts      Options
+	findings  []model.Finding
+	mu        sync.Mutex
+	sizeCache map[string]int64 // absolute path -> computed size, avoids re-walking large dirs
 }
 
 // New creates a new Scanner.
 func New(opts Options) *Scanner {
 	return &Scanner{
-		os:   platform.Detect(),
-		home: platform.HomeDir(),
-		opts: opts,
+		os:        platform.Detect(),
+		home:      platform.HomeDir(),
+		opts:      opts,
+		sizeCache: make(map[string]int64),
 	}
 }
 
@@ -73,6 +76,9 @@ func (s *Scanner) Scan() *model.ScanResult {
 	}
 	if s.opts.ScanShell {
 		s.scanShellProfiles()
+	}
+	if s.opts.ScanDeep {
+		s.scanDeep()
 	}
 
 	// Dedup across categories: if a config dir finding's path is already covered
@@ -119,9 +125,20 @@ func (s *Scanner) fileExists(path string) bool {
 	return err == nil
 }
 
-// dirSize gets directory size.
+// dirSize gets directory size, caching results per absolute path to avoid
+// re-walking the same large directory (e.g. ~/.ollama, ~/.cache/huggingface)
+// when multiple categories reference it.
 func (s *Scanner) dirSize(path string) int64 {
-	return platform.DirSize(path)
+	abs, err := filepath.Abs(path)
+	if err != nil {
+		abs = path
+	}
+	if size, ok := s.sizeCache[abs]; ok {
+		return size
+	}
+	size := platform.DirSize(abs)
+	s.sizeCache[abs] = size
+	return size
 }
 
 // fileSize gets file size.
@@ -133,8 +150,18 @@ func (s *Scanner) fileSize(path string) int64 {
 	return info.Size()
 }
 
-// expandPath resolves ~ to home directory.
+// expandPath resolves ~ and Windows-style env placeholders (%APPDATA%,
+// %LOCALAPPDATA%) to concrete paths so the same config entry works on every OS.
+// "~" alone or "~/foo" expands to home; "~/AppData/Roaming/X" works on Windows
+// and is left as-is (no-op) on Linux/macOS where it won't exist anyway.
 func (s *Scanner) expandPath(path string) string {
+	// Windows env-style placeholders
+	path = strings.ReplaceAll(path, "%APPDATA%", platform.ConfigDir())
+	if la := platform.LocalAppData(); la != "" {
+		path = strings.ReplaceAll(path, "%LOCALAPPDATA%", la)
+	}
+
+	// Home-relative
 	if len(path) > 0 && path[0] == '~' {
 		return filepath.Join(s.home, path[1:])
 	}

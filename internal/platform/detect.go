@@ -89,15 +89,21 @@ func RunCommand(name string, args ...string) (string, error) {
 }
 
 // DirSize calculates the total size of a directory.
+// Symlinks are not followed to avoid cycles and double-counting across mounts.
 func DirSize(path string) int64 {
 	var size int64
-	filepath.Walk(path, func(_ string, info os.FileInfo, err error) error {
+	filepath.Walk(path, func(p string, info os.FileInfo, err error) error {
 		if err != nil {
 			return nil
 		}
-		if !info.IsDir() {
-			size += info.Size()
+		if info.IsDir() {
+			// Skip symlinked directories entirely to prevent cycles.
+			if info.Mode()&os.ModeSymlink != 0 {
+				return filepath.SkipDir
+			}
+			return nil
 		}
+		size += info.Size()
 		return nil
 	})
 	return size

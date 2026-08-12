@@ -1,7 +1,7 @@
 # Ohm — Roadmap
 
-**Current version**: v0.1.1  
-**Status**: Released. 84+ signatures, cross-platform TUI, script generation, zero PII.  
+**Current version**: v0.1.4  
+**Status**: Released. 90+ signatures, cross-platform TUI, script generation, zero PII.  
 **Repo**: https://github.com/derKosi/Ohm
 
 ---
@@ -11,7 +11,7 @@
 | Feature | Status |
 |---------|--------|
 | Core scanner (agents, editors, runtimes, SDKs, models, ComfyUI) | ✅ |
-| 84+ detection signatures | ✅ |
+| 90+ detection signatures (incl. disk/offload runtimes: llama.cpp, KTransformers, MLX, Jan) | ✅ |
 | Interactive Bubble Tea TUI with cursor, selection, scroll | ✅ |
 | Script generation (.sh / .ps1) with warnings | ✅ |
 | JSON output (`--json`) | ✅ |
@@ -29,7 +29,11 @@
 | Cross-compile (linux/darwin/windows amd64+arm64) | ✅ |
 | GitHub repo + v0.1.0 release with binaries | ✅ |
 | v0.1.1 bug fixes, AGPL license, --all flag, WSL detection | ✅ |
+| v0.1.2 GoReleaser CI/CD, commercial pricing tiers, README polish | ✅ |
+| v0.1.3 DirSize caching, --deep implementation, Windows AppData paths, CI workflows | ✅ |
+| v0.1.4 disk/offload LLM runtime signatures (llama.cpp, KTransformers, MLX, Jan, llamafile) | ✅ |
 | `go install github.com/derKosi/Ohm/cmd/ohm@latest` | ✅ |
+| `curl -fsSL .../install.sh \| sh` installer | ✅ |
 | PII audit — zero personal data in repo/history | ✅ |
 
 ---

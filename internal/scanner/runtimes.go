@@ -148,6 +148,71 @@ func (s *Scanner) scanRuntimes() {
 				"windows": "# Tabby: remove binary + Remove-Item ~/.tabby -Recurse -Force",
 			},
 		},
+
+		// ── Disk/Offload LLM runtimes (run huge models on limited RAM) ──
+		{
+			id:   "llama-cpp",
+			name: "llama.cpp",
+			configDirs: []string{
+				"~/.cache/llama.cpp",
+			},
+			commands: []string{"llama-cli", "llama-server", "llamafile"},
+			risk:     model.RiskSafe,
+			uninstallCmds: map[string]string{
+				"linux":   "# llama.cpp: remove built binary + rm -rf ~/.cache/llama.cpp ~/llama.cpp",
+				"macos":   "# llama.cpp: remove built binary + rm -rf ~/.cache/llama.cpp ~/llama.cpp",
+				"windows": "# llama.cpp: remove built binary + Remove-Item ~/.cache/llama.cpp,~/llama.cpp -Recurse -Force",
+			},
+		},
+		{
+			id:          "llama-cpp-python",
+			name:        "llama-cpp-python (Python bindings)",
+			pipPackages: []string{"llama-cpp-python"},
+			risk:        model.RiskSafe,
+			uninstallCmds: map[string]string{
+				"linux":   "pip uninstall llama-cpp-python",
+				"macos":   "pip uninstall llama-cpp-python",
+				"windows": "pip uninstall llama-cpp-python",
+			},
+		},
+		{
+			id:          "ktransformers",
+			name:        "KTransformers (CPU-GPU offload, 600B+ models)",
+			pipPackages: []string{"ktransformers"},
+			commands:    []string{"ktransformers"},
+			risk:        model.RiskCaution,
+			uninstallCmds: map[string]string{
+				"linux":   "pip uninstall ktransformers",
+				"macos":   "pip uninstall ktransformers",
+				"windows": "pip uninstall ktransformers",
+			},
+		},
+		{
+			id:          "mlx-lm",
+			name:        "MLX / mlx-lm (Apple Silicon)",
+			pipPackages: []string{"mlx-lm"},
+			risk:        model.RiskSafe,
+			uninstallCmds: map[string]string{
+				"linux":   "# MLX is Apple-Silicon-only; remove via pip uninstall mlx-lm if installed",
+				"macos":   "pip uninstall mlx-lm",
+				"windows": "# MLX is Apple-Silicon-only; remove via pip uninstall mlx-lm if installed",
+			},
+		},
+		{
+			id:   "jan",
+			name: "Jan (offline desktop LLM)",
+			configDirs: []string{
+				"%APPDATA%/Jan",
+				"~/.config/Jan",
+				"~/Library/Application Support/Jan",
+			},
+			risk: model.RiskSafe,
+			uninstallCmds: map[string]string{
+				"linux":   "# Jan: uninstall app + rm -rf ~/.config/Jan ~/.local/share/Jan",
+				"macos":   "# Jan: remove /Applications/Jan.app + rm -rf ~/Library/Application Support/Jan",
+				"windows": "# Jan: uninstall via Add/Remove Programs + Remove-Item $env:APPDATA\\Jan -Recurse -Force",
+			},
+		},
 	}
 
 	for _, rt := range runtimes {

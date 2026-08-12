@@ -334,6 +334,7 @@ Ohm is dual-licensed:
 | [`docs/PROJECT-PLAN.md`](docs/PROJECT-PLAN.md) | Architecture, data model, scan pipeline |
 | [`docs/IT-DEPLOYMENT.md`](docs/IT-DEPLOYMENT.md) | Fleet deployment (Intune/SCCM/Ansible/Jamf), licensing for IT, compliance JSON |
 | [`test-fixtures/`](test-fixtures/) | Real-world inventory files for testing |
+| [`AGENTS.md`](AGENTS.md) | Install/usage/license instructions for AI agents (Hermes, OpenClaw, Claude Code, Copilot, ...) |
 | [`COMMERCIAL-LICENSE.md`](COMMERCIAL-LICENSE.md) | Dual-license details and FAQ |
 | [`CONTRIBUTING.md`](CONTRIBUTING.md) | Contribution guidelines and DCO |
 | [`THIRD-PARTY-NOTICES.md`](THIRD-PARTY-NOTICES.md) | Dependency licenses |

@@ -132,7 +132,7 @@ Ohm uses two detection layers:
 Total: 19 items (41.9 GB) | Selected: 3 items (40.2 GB)
 ↑/k up • ↓/j down • pgup/pgdn • space select • a toggle all • g generate • q quit
 
-Ohm v0.1.1 · AGPL-3.0 © 2026 Mathias Kosinski · Built with Pi Harness + GLM-5.1 · github.com/derKosi/Ohm/releases
+Ohm v0.1.1 · AGPL-3.0 © 2026 Mathias Kosinski · github.com/derKosi/Ohm/releases
 ```
 
 ### Windows 11 TUI (interactive mode):
@@ -196,7 +196,7 @@ Ohm v0.1.1 · AGPL-3.0 © 2026 Mathias Kosinski · Built with Pi Harness + GLM-5
 Total: 31 items (6.6 GB) | Selected: 0 items (0 B)
 ↑/k up • ↓/j down • pgup/pgdn • space select • a toggle all • g generate • q quit
 
-Ohm v0.1.1 · AGPL-3.0 © 2026 Mathias Kosinski · Built with Pi Harness + GLM-5.1 · github.com/derKosi/Ohm/releases
+Ohm v0.1.1 · AGPL-3.0 © 2026 Mathias Kosinski · github.com/derKosi/Ohm/releases
 ```
 
 ### Generated cleanup script:
@@ -225,12 +225,44 @@ rm -rf ~/.codex
 ## Installation
 
 ```bash
-# From source (requires Go 1.24+)
-go install github.com/derKosi/Ohm@latest
+# macOS
+brew install derKosi/tap/ohm
 
-# Or download binary from GitHub releases
-# Single file, no dependencies, no installer, no internet required.
+# Windows
+scoop install ohm
+
+# Linux
+curl -fsSL https://github.com/derKosi/Ohm/releases/latest/download/install.sh | sh
 ```
+
+Or download a prebuilt binary directly from the
+[latest release](https://github.com/derKosi/Ohm/releases/latest) — single file,
+no dependencies, no installer, no internet required.
+
+<details>
+<summary><b>From source (requires Go 1.24+)</b></summary>
+
+```bash
+go install github.com/derKosi/Ohm@latest
+```
+
+</details>
+
+<details>
+<summary><b>Build from a checkout</b></summary>
+
+```bash
+git clone https://github.com/derKosi/Ohm.git
+cd Ohm
+make build          # produces ./ohm
+# or cross-compile all platforms:
+make build-all      # produces dist/ohm-{os}-{arch}
+```
+
+</details>
+
+> **No telemetry, no update checks.** Ohm is offline by design — the install
+> scripts download the binary once and never phone home afterward.
 
 ## Usage
 
@@ -309,5 +341,5 @@ Ohm is dual-licensed:
 ---
 
 *Ohm — Resistance against AGI bloat.*
-*Designed with help of [Pi Harness](https://github.com/mariozechner/pi-coding-agent) and GLM-5.1.*
+*Built with [Pi Harness](https://github.com/mariozechner/pi-coding-agent), GLM, and Bubble Tea. See [CREDITS.md](CREDITS.md).*
 *[AGPL-3.0](LICENSE) — © 2026 Mathias Kosinski · [Commercial licensing available](COMMERCIAL-LICENSE.md)*

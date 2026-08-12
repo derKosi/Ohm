@@ -43,7 +43,31 @@ You need a commercial license if you want to:
 - Custom integration assistance
 - Indemnification
 
-**Contact:** mathias.kosinski@gmail.com
+**Most users don't need a commercial license.** Running `ohm scan` on your own machines — personal, company, or enterprise — is free under AGPL-3.0. You only need a commercial license if you embed Ohm in a proprietary product or offer it as part of a paid service.
+
+### Pricing
+
+| License | Price / year | For whom | What's included |
+|---|---|---|---|
+| **Ohm Solo** | 290 € | Indie consultants, solo developers | 1 user, community support |
+| **Ohm Team** | 1,900 € | Teams of 5–50 | 50 seats, e-mail SLA, quarterly signature updates |
+| **Ohm Business** | 4,900 € | Companies of 50–500 | Unlimited seats, priority support, 10 custom signatures, audit export |
+| **Ohm Enterprise** | from 12,000 € | 500+ employees / OEM | Embedding rights, 99% SLA, dedicated engineer, indemnification |
+
+All prices exclude applicable VAT. Prices in EUR. Custom terms available on request.
+
+### What's free vs. paid
+
+| Capability | AGPL (free) | Commercial |
+|---|---|---|
+| Run `ohm scan` on your machines | ✅ | ✅ |
+| Use `--json` output in internal tools | ✅ | ✅ |
+| Embed scanner in a proprietary product | ❌ | ✅ |
+| Offer Ohm as part of a SaaS platform | ❌ | ✅ |
+| Distribute modified Ohm without open-sourcing | ❌ | ✅ |
+| Priority support, SLA, custom signatures | ❌ | ✅ |
+
+**Contact:** derKosi@kosiit.de
 
 ## Why This Model?
 

@@ -77,14 +77,14 @@ This is a deliberate design choice and a core differentiator. If you find networ
 |------|---------------|
 | `--path` | PATH entries pointing to AI tools, stale entries from removed software |
 | `--env` | Environment variables containing API keys, model paths, AI-related config |
-| `--shell-profile` | Shell profile modifications (.bashrc, .zshrc, PowerShell $PROFILE, .profile) |
+| `--shell` | Shell profile modifications (.bashrc, .zshrc, PowerShell $PROFILE, .profile) |
 | `--deep` | Full home directory crawl for any AI-related file signatures (slower, more thorough) |
 
 ### Detection Methods
 
 Ohm uses two detection layers:
 
-1. **Known software database** — Curated signatures with install paths, config locations, and uninstall commands. See [`docs/SIGNATURES.md`](docs/SIGNATURES.md) for the full catalog. Extensible via `~/.ohm/signatures/` (drop-in YAML files for custom/private tools)
+1. **Known software database** — Curated signatures with install paths, config locations, and uninstall commands. See [`docs/SIGNATURES.md`](docs/SIGNATURES.md) for the full catalog. *(Custom drop-in YAML signatures in `~/.ohm/signatures/` are planned for a future release — see the [roadmap](docs/ROADMAP.md).)*
 2. **Heuristic detection** — Filesystem fingerprints: known filenames (AGENTS.md, .gguf, safetensors), directory patterns (models/, checkpoints/, loras/), package names with AI-related keywords, running processes with AI-related names
 
 ## How It Works
@@ -283,7 +283,7 @@ ohm version           # Show version
 
 ## Custom Signatures *(coming soon)*
 
-Ohm ships with a built-in database of 84+ known AI tools. Custom YAML signatures (`~/.ohm/signatures/*.yaml`) for private or niche tools are planned for a future release.
+Ohm ships with a built-in database of 90+ known AI tools. Custom YAML signatures (`~/.ohm/signatures/*.yaml`) for private or niche tools are planned for a future release.
 
 ## Safety
 
@@ -302,7 +302,7 @@ Ohm ships with a built-in database of 84+ known AI tools. Custom YAML signatures
 | Styling | [Lip Gloss](https://github.com/charmbracelet/lipgloss) |
 | CLI | Built-in (no framework) |
 | Storage | Local JSON state file (`~/.ohm/state.json`) |
-| Signatures | Built-in + drop-in YAML (`~/.ohm/signatures/*.yaml`) |
+| Signatures | Built-in (90+ curated) — custom YAML signatures planned |
 | Binary | Single static binary, zero dependencies, no network stack |
 
 ## Third-Party Libraries

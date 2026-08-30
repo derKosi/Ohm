@@ -1,113 +1,18 @@
 # ⚡ Ohm
 
+[![CI](https://github.com/derKosi/Ohm/actions/workflows/ci.yml/badge.svg)](https://github.com/derKosi/Ohm/actions/workflows/ci.yml)
+[![Release](https://img.shields.io/github/v/release/derKosi/Ohm)](https://github.com/derKosi/Ohm/releases/latest)
+[![Platforms](https://img.shields.io/badge/platform-Linux%20%7C%20macOS%20%7C%20Windows-9b59b6)](https://github.com/derKosi/Ohm/releases/latest)
+[![Offline](https://img.shields.io/badge/100%25-offline-2ecc71)](#privacy--safety)
+[![License: AGPL-3.0](https://img.shields.io/badge/license-AGPL--3.0-blue)](LICENSE)
+
 **Resistance against AGI bloat.**
 
 A cross-platform TUI that scans your system for AI-related software — agents, model caches, editors, SDKs, credentials — shows what's installed and how much space it eats, and generates a reviewable cleanup script. **Ohm never deletes anything itself.**
 
 > **Privacy first.** 100% offline. No telemetry, no phone-home, no cloud. Your AI config files contain API keys and project paths — that data stays on your machine.
 
-### TL;DR
-
-```bash
-# Linux / macOS
-curl -fsSL https://github.com/derKosi/Ohm/releases/latest/download/install.sh | sh
-
-# Windows (PowerShell)
-irm https://github.com/derKosi/Ohm/releases/latest/download/install.ps1 | iex
-```
-
-```bash
-ohm scan          # Interactive TUI — select what you want to remove
-ohm generate      # Writes ohm-cleanup-<date>.sh — review it, then run it
-```
-
-- 🔒 **Offline by design** — no network stack in the codebase. If you find network code, it's a bug.
-- 🔍 **90+ signatures** — Claude Code, Ollama, KTransformers, MLX, Cursor, ComfyUI, HuggingFace caches, llama.cpp, and more.
-- 🚫 **Never executes** — Ohm scans and writes scripts. You decide what runs.
-- 🖥️ **Single binary** — Linux / macOS / Windows, amd64 + arm64, zero dependencies.
-
----
-
-## Why?
-
-You test AI tools. You install agents, harnesses, runtimes, download models, set up SDKs. Months later your disk is full of 14 GB model files from that one experiment, three competing AI editors you forgot about, and a `.cache/huggingface` directory that quietly grew to 80 GB.
-
-Ohm finds all of it. You pick what goes. Ohm writes the script. You run it when you're ready.
-
-## Privacy-First Architecture
-
-AI tools store sensitive data on disk:
-
-- **API keys** in config files (`ANTHROPIC_API_KEY`, `OPENAI_API_KEY`, custom provider tokens)
-- **Project paths** revealing client names, employer info, proprietary structures
-- **Conversation history** with PII, code snippets, business logic
-- **MCP server configs** with credentials, database connection strings
-- **Agent soul files** containing proprietary prompts and business rules
-- **Memory/session files** with accumulated context about your work
-- **Plugin configs** that may contain third-party API keys
-
-Ohm treats all of this as **confidential**. The tool:
-- Never transmits scan results anywhere
-- Has no network capability — no HTTP client in the codebase
-- Stores all state locally (`~/.ohm/state.json`)
-- Generates cleanup scripts that run entirely on your machine
-- No analytics, no crash reporting, no update checks that phone home
-
-This is a deliberate design choice and a core differentiator. If you find network code in Ohm, that's a bug.
-
-## Features
-
-- 🔍 **Scan** — Detects AI agents, harnesses, runtimes, editors, SDKs, model caches, config dirs, Docker images, shell modifications, and stragglers
-- 📋 **List** — Bubble Tea TUI with categories, sizes, paths, and checkboxes
-- 📝 **Script output** — Generates a `.sh` / `.ps1` removal script with all selected items
-- 🚫 **Never executes** — Ohm is read-only. The generated script is yours to review and run
-- 🔒 **Offline by design** — zero network calls, no telemetry, no data leaves your machine
-- 🧹 **Straggler detection** — Finds orphaned model files, stale PATH entries, leftover configs, dead services
-- 🧠 **Memory file detection** — Finds agent memory, session history, conversation logs, accumulated context
-- 🔑 **Credential-aware** — Flags locations that likely contain API keys or tokens (shows warning, never exposes contents)
-- 📁 **Agent instruction files** — Finds AGENTS.md, CLAUDE.md, .cursorrules, .windsurfrules, GEMINI.md, soul files, MCP configs
-- 🔌 **Plugin detection** — Finds ComfyUI custom nodes, pi skills, MCP servers, editor extensions
-- 🛤️ **PATH & ENV scanning** *(opt-in)* — Detects AI-related entries in PATH, environment variables, shell profiles
-- 💾 **State between runs** — Remembers what you uninstalled last time and flags remaining leftovers
-- 🖥️ **Cross-platform** — Single Go binary, zero runtime dependencies, works on Windows / macOS / Linux
-
-## Scan Categories
-
-| # | Category | What It Finds |
-|---|----------|---------------|
-| 1 | **Agents & Harnesses** | pi, Claude Code, Aider, Continue, Cline, Codex CLI, Amazon Q, Cursor Agent, OpenCode, PaperclipAI, ZenFlow, Antigravity, Mistral Vibe, MiMo Code, Amp, Droid, gptme, Codebuff, DeepSeek Harness (DSH), Grok Build, Kiro, iFlow, Blackbox, CLIProxyAPI, Codex Security, custom harnesses |
-| 2 | **AI Editors & IDEs** | Cursor, Windsurf, Augment, Zed (AI features), GitHub Copilot, ZCode (Z.ai), Claude Desktop, ChatGPT Desktop, Raycast AI |
-| 3 | **Model Runtimes** | Ollama, LM Studio, LocalAI, vLLM, text-generation-webui, llama.cpp, llama-cpp-python, KTransformers, MLX/mlx-lm, Jan, GPT4All, KoboldCpp, Tabby |
-| 4 | **ComfyUI & Image Models** | ComfyUI install + checkpoints, LoRA adapters, ControlNet, VAEs, CLIP, UNet, embeddings, upscale models, custom nodes |
-| 5 | **SDKs & Frameworks** | PyTorch, TensorFlow, HuggingFace, Anthropic SDK, OpenAI SDK, LangChain, LlamaIndex, Playwright, Selenium |
-| 6 | **Model Caches** | HuggingFace cache, .gguf files, Ollama model store, safetensors, PyTorch hub cache |
-| 7 | **Agent Config & Instructions** | AGENTS.md, CLAUDE.md, .cursorrules, .windsurfrules, GEMINI.md, copilot-instructions.md, soul files, system prompts, CONVENTIONS.md |
-| 8 | **Agent Memory & Sessions** | pi sessions, Claude conversation history, Aider chat logs, Continue session data, Vibe history, PaperclipAI context |
-| 9 | **MCP Configurations** | .mcp.json files, MCP server configs (often contain API keys and connection strings) |
-| 10 | **Plugins & Extensions** | ComfyUI custom nodes, pi skills/plugins, VS Code AI extensions, JetBrains AI plugins |
-| 11 | **Config & Data Dirs** | ~/.claude/, ~/.pi/, ~/.aider/, ~/.cursor/, ~/.codex/, ~/.gemini/, ~/.vibe/, ~/.paperclip/, AppData entries, .config dirs |
-| 12 | **Docker** | AI-related images and volumes (ollama, vllm, comfyui, localai, open-webui, anything-llm, n8n, dify, langflow, flowise, etc.) |
-| 13 | **Stragglers** | Orphaned files from already-uninstalled tools, leftover model weights, dead services |
-
-### Opt-In Scans (disabled by default, enabled with flags)
-
-| Flag | What It Scans |
-|------|---------------|
-| `--path` | PATH entries pointing to AI tools, stale entries from removed software |
-| `--env` | Environment variables containing API keys, model paths, AI-related config |
-| `--shell` | Shell profile modifications (.bashrc, .zshrc, PowerShell $PROFILE, .profile) |
-| `--deep` | Full home directory crawl for any AI-related file signatures (slower, more thorough) |
-
-### Detection Methods
-
-Ohm uses two detection layers:
-
-1. **Known software database** — Curated signatures with install paths, config locations, and uninstall commands. See [`docs/SIGNATURES.md`](docs/SIGNATURES.md) for the full catalog. *(Custom drop-in YAML signatures in `~/.ohm/signatures/` are planned for a future release — see the [roadmap](docs/ROADMAP.md).)*
-2. **Heuristic detection** — Filesystem fingerprints: known filenames (AGENTS.md, .gguf, safetensors), directory patterns (models/, checkpoints/, loras/), package names with AI-related keywords, running processes with AI-related names
-
-## How It Works
-
-### Linux TUI (interactive mode):
+### Linux TUI (interactive mode)
 
 ```
   ───┤   ⚡  O H M     ├───
@@ -136,7 +41,7 @@ Ohm uses two detection layers:
   [ ] ⚠️  Gemini CLI History             5.3 MB     /home/Kosi/.gemini
 
 🧩 Plugins & Extensions (1 found, 4.3 KB)
-  [ ] ⚠️  AI Plugins & Extensions        4.3 KB     (see sub-items)
+  [ ] ⚠️  AI Plugins & Extensions        4.3 KB    (see sub-items)
 
 📁 Config & Data Dirs (6 found, 13.5 GB)
   [ ] 🔑 Claude Config                  242 B      /home/Kosi/.claude
@@ -153,7 +58,8 @@ Total: 19 items (41.9 GB) | Selected: 3 items (40.2 GB)
 Ohm v0.1.1 · AGPL-3.0 © 2026 Mathias Kosinski · github.com/derKosi/Ohm/releases
 ```
 
-### Windows 11 TUI (interactive mode):
+<details>
+<summary><b>🖥️ Windows 11 TUI</b></summary>
 
 ```
   ───┤   ⚡  O H M     ├───
@@ -192,13 +98,13 @@ Ohm v0.1.1 · AGPL-3.0 © 2026 Mathias Kosinski · github.com/derKosi/Ohm/releas
   [ ] 🔑 Claude Code Memory             407.1 MB   C:\Users\root\.claude
   [ ]    Mistral Vibe History           6.6 KB     C:\Users\root\.vibe\vibehistory
   [ ] 🔑 PaperclipAI Context            213.3 MB   ...t.json, C:\Users\root\.paperclip\instances
-  [ ] ⚠️  Gemini CLI History             725.3 MB   C:\Users\root\.gemini
+  [ ] ⚠️  Gemini CLI History            725.3 MB   C:\Users\root\.gemini
 
 🔌 MCP Configurations (1 found, 22 B)
   [ ] 🔑 MCP Configuration Files        22 B       (scattered across projects)
 
 🧩 Plugins & Extensions (1 found, 1.2 KB)
-  [ ] ⚠️  AI Plugins & Extensions        1.2 KB     (see sub-items)
+  [ ] ⚠️  AI Plugins & Extensions        1.2 KB    (see sub-items)
 
 📁 Config & Data Dirs (9 found, 2.6 GB)
   [ ] 🔑 Claude Config                  407.1 MB   C:\Users\root\.claude
@@ -217,13 +123,133 @@ Total: 31 items (6.6 GB) | Selected: 0 items (0 B)
 Ohm v0.1.1 · AGPL-3.0 © 2026 Mathias Kosinski · github.com/derKosi/Ohm/releases
 ```
 
-### Generated cleanup script:
+</details>
 
+### TL;DR
+
+```bash
+# Linux / macOS
+curl -fsSL https://github.com/derKosi/Ohm/releases/latest/download/install.sh | sh
+
+# Windows (PowerShell)
+irm https://github.com/derKosi/Ohm/releases/latest/download/install.ps1 | iex
 ```
+
+```bash
+ohm scan          # Interactive TUI — select what you want to remove
+ohm generate      # Writes ohm-cleanup-<date>.sh — review it, then run it
+```
+
+- 🔒 **Offline by design** — no network stack in the codebase. If you find network code, it's a bug.
+- 🔍 **90+ signatures** — Claude Code, Ollama, KTransformers, MLX, Cursor, ComfyUI, HuggingFace caches, llama.cpp, and more.
+- 🚫 **Never executes** — Ohm scans and writes scripts. You decide what runs.
+- 🖥️ **Single binary** — Linux / macOS / Windows, amd64 + arm64, zero dependencies.
+
+---
+
+## Why?
+
+You test AI tools. You install agents, harnesses, runtimes, download models, set up SDKs. Months later your disk is full of 14 GB model files from that one experiment, three competing AI editors you forgot about, and a `.cache/huggingface` directory that quietly grew to 80 GB.
+
+Ohm finds all of it. You pick what goes. Ohm writes the script. You run it when you're ready.
+
+## Privacy & Safety
+
+AI tools store sensitive data on disk: API keys in config files, project paths revealing client names, conversation history with PII, MCP server configs with credentials. Ohm treats all of it as **confidential**.
+
+- 🔒 **Offline by design** — zero network calls, no telemetry, no data leaves your machine. No HTTP client in the codebase.
+- 🚫 **Never executes** — Ohm is read-only. It scans, lists, and writes scripts. You decide what runs.
+- 🔑 **Credential-aware** — flags locations that likely contain API keys or tokens (shows warning, never exposes contents).
+- 💾 **Local state only** — everything is stored locally (`~/.ohm/state.json`). No analytics, no crash reporting, no update checks that phone home.
+
+This is a deliberate design choice and a core differentiator. If you find network code in Ohm, that's a bug.
+
+<details>
+<summary><b>What AI tools store on disk</b></summary>
+
+- **API keys** in config files (`ANTHROPIC_API_KEY`, `OPENAI_API_KEY`, custom provider tokens)
+- **Project paths** revealing client names, employer info, proprietary structures
+- **Conversation history** with PII, code snippets, business logic
+- **MCP server configs** with credentials, database connection strings
+- **Agent soul files** containing proprietary prompts and business rules
+- **Memory/session files** with accumulated context about your work
+- **Plugin configs** that may contain third-party API keys
+
+</details>
+
+<details>
+<summary><b>Safety guarantees</b></summary>
+
+- Ohm is **read-only**. It never deletes, uninstalls, or modifies anything.
+- Generated scripts include comments explaining every action.
+- Scripts require manual execution — you stay in control.
+- Credential-containing files are flagged with ⚠️ but their contents are never displayed.
+- No `os.Remove`, `os.RemoveAll`, or `exec.Command("rm")` anywhere in the codebase.
+
+</details>
+
+## Features
+
+- 🔍 **Scan** — Detects AI agents, harnesses, runtimes, editors, SDKs, model caches, config dirs, Docker images, shell modifications, and stragglers
+- 📋 **List** — Bubble Tea TUI with categories, sizes, paths, and checkboxes
+- 📝 **Script output** — Generates a `.sh` / `.ps1` removal script with all selected items
+- 🧹 **Straggler detection** — Finds orphaned model files, stale PATH entries, leftover configs, dead services
+- 🧠 **Memory file detection** — Finds agent memory, session history, conversation logs, accumulated context
+- 📁 **Agent instruction files** — Finds AGENTS.md, CLAUDE.md, .cursorrules, .windsurfrules, GEMINI.md, soul files, MCP configs
+- 🔌 **Plugin detection** — Finds ComfyUI custom nodes, pi skills, MCP servers, editor extensions
+- 🛤️ **PATH & ENV scanning** *(opt-in)* — Detects AI-related entries in PATH, environment variables, shell profiles
+- 💾 **State between runs** — Remembers what you uninstalled last time and flags remaining leftovers
+
+## Scan Categories
+
+Ohm detects AI software across 13 categories — agents, editors, runtimes, model caches, configs, Docker images, and more. The full catalog of 90+ signatures lives in [`docs/SIGNATURES.md`](docs/SIGNATURES.md).
+
+<details>
+<summary><b>All 13 categories</b></summary>
+
+| # | Category | What It Finds |
+|---|----------|---------------|
+| 1 | **Agents & Harnesses** | pi, Claude Code, Aider, Continue, Cline, Codex CLI, Amazon Q, Cursor Agent, OpenCode, PaperclipAI, ZenFlow, Antigravity, Mistral Vibe, MiMo Code, Amp, Droid, gptme, Codebuff, DeepSeek Harness (DSH), Grok Build, Kiro, iFlow, Blackbox, CLIProxyAPI, Codex Security, custom harnesses |
+| 2 | **AI Editors & IDEs** | Cursor, Windsurf, Augment, Zed (AI features), GitHub Copilot, ZCode (Z.ai), Claude Desktop, ChatGPT Desktop, Raycast AI |
+| 3 | **Model Runtimes** | Ollama, LM Studio, LocalAI, vLLM, text-generation-webui, llama.cpp, llama-cpp-python, KTransformers, MLX/mlx-lm, Jan, GPT4All, KoboldCpp, Tabby |
+| 4 | **ComfyUI & Image Models** | ComfyUI install + checkpoints, LoRA adapters, ControlNet, VAEs, CLIP, UNet, embeddings, upscale models, custom nodes |
+| 5 | **SDKs & Frameworks** | PyTorch, TensorFlow, HuggingFace, Anthropic SDK, OpenAI SDK, LangChain, LlamaIndex, Playwright, Selenium |
+| 6 | **Model Caches** | HuggingFace cache, .gguf files, Ollama model store, safetensors, PyTorch hub cache |
+| 7 | **Agent Config & Instructions** | AGENTS.md, CLAUDE.md, .cursorrules, .windsurfrules, GEMINI.md, copilot-instructions.md, soul files, system prompts, CONVENTIONS.md |
+| 8 | **Agent Memory & Sessions** | pi sessions, Claude conversation history, Aider chat logs, Continue session data, Vibe history, PaperclipAI context |
+| 9 | **MCP Configurations** | .mcp.json files, MCP server configs (often contain API keys and connection strings) |
+| 10 | **Plugins & Extensions** | ComfyUI custom nodes, pi skills/plugins, VS Code AI extensions, JetBrains AI plugins |
+| 11 | **Config & Data Dirs** | ~/.claude/, ~/.pi/, ~/.aider/, ~/.cursor/, ~/.codex/, ~/.gemini/, ~/.vibe/, ~/.paperclip/, AppData entries, .config dirs |
+| 12 | **Docker** | AI-related images and volumes (ollama, vllm, comfyui, localai, open-webui, anything-llm, n8n, dify, langflow, flowise, etc.) |
+| 13 | **Stragglers** | Orphaned files from already-uninstalled tools, leftover model weights, dead services |
+
+</details>
+
+### Opt-In Scans (disabled by default, enabled with flags)
+
+| Flag | What It Scans |
+|------|---------------|
+| `--path` | PATH entries pointing to AI tools, stale entries from removed software |
+| `--env` | Environment variables containing API keys, model paths, AI-related config |
+| `--shell` | Shell profile modifications (.bashrc, .zshrc, PowerShell $PROFILE, .profile) |
+| `--deep` | Full home directory crawl for any AI-related file signatures (slower, more thorough) |
+
+### Detection Methods
+
+Ohm uses two detection layers:
+
+1. **Known software database** — Curated signatures with install paths, config locations, and uninstall commands. See [`docs/SIGNATURES.md`](docs/SIGNATURES.md) for the full catalog. *(Custom drop-in YAML signatures in `~/.ohm/signatures/` are planned for a future release — see the [roadmap](docs/ROADMAP.md).)*
+2. **Heuristic detection** — Filesystem fingerprints: known filenames (AGENTS.md, .gguf, safetensors), directory patterns (models/, checkpoints/, loras/), package names with AI-related keywords, running processes with AI-related names
+
+## How It Works
+
+```bash
 $ ohm generate
   📝 Written: ohm-cleanup-2026-04-11.sh
   ⚠️  Review the script before running.
 ```
+
+The generated script is plain, commented bash (or PowerShell on Windows):
 
 ```bash
 #!/usr/bin/env bash
@@ -239,6 +265,8 @@ echo "Removing Codex CLI (OpenAI)..."
 npm uninstall -g @openai/codex
 rm -rf ~/.codex
 ```
+
+Ohm never runs the script. You review it, you run it — on your machine, in your time.
 
 ## Installation
 
@@ -302,14 +330,6 @@ ohm version           # Show version
 
 Ohm ships with a built-in database of 90+ known AI tools. Custom YAML signatures (`~/.ohm/signatures/*.yaml`) for private or niche tools are planned for a future release.
 
-## Safety
-
-- Ohm is **read-only**. It scans, lists, and writes scripts. It never deletes, uninstalls, or modifies anything.
-- Generated scripts include comments explaining every action.
-- Scripts require manual execution — you stay in control.
-- Credential-containing files are flagged with ⚠️ but their contents are never displayed.
-- No `os.Remove`, `os.RemoveAll`, or `exec.Command("rm")` anywhere in the codebase.
-
 ## Tech Stack
 
 | Component | Choice |
@@ -324,10 +344,8 @@ Ohm ships with a built-in database of 90+ known AI tools. Custom YAML signatures
 
 ## Third-Party Libraries
 
-Ohm uses the following open-source libraries:
-
 | Library | License | Purpose |
-|---------|---------|--------|
+|---------|---------|---------|
 | [Bubble Tea](https://github.com/charmbracelet/bubbletea) | MIT | TUI framework |
 | [Lip Gloss](https://github.com/charmbracelet/lipgloss) | MIT | Terminal styling |
 

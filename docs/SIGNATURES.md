@@ -272,6 +272,33 @@ Each entry specifies detection rules, config locations, and uninstall commands p
 - **Binary:** `cursor-agent` in PATH
 - **Note:** Headless/CI agent mode of Cursor; shares `~/.cursor/` with the Cursor IDE
 
+### DeepSeek Harness (DSH)
+- **Install:** `npm i -g @deepseek-ai/dsh` (Top-Trending-Repo 08/2026, 200k+ ⭐)
+- **Binary:** `dsh` in PATH
+- **Config:** `~/.dsh/` (settings.yaml, plugins) — dsh-desktop (anywhere-labs) nutzt dasselbe `~/.dsh`
+- **ENV:** `DSH_HOME` überschreibt den Pfad
+
+### Grok Build (xAI harness)
+- **Binary:** `grok-build` in PATH (Rust, cargo install)
+- **Config:** `~/.grok-build/` oder `~/.config/grok-build/` (undokumentiert — Best-Guess)
+
+### Codex Security CLI (OpenAI)
+- **Install:** `npm i -g @openai/codex-security`
+- **Binary:** `codex-security` in PATH
+
+### iFlow CLI (iflow.ai)
+- **Install:** `npm i -g @iflow-ai/iflow-cli`
+- **Binary:** `iflow` in PATH
+- **Config:** `~/.iflow/`
+
+### Blackbox AI
+- **Binary:** `blackbox` in PATH
+- **Config:** `~/.blackbox/`
+
+### CLIProxyAPI (Model Router)
+- **Binary:** `cli-proxy-api` in PATH
+- **Config:** `~/.cli-proxy-api/` (config.yaml contains provider auth tokens — credential risk)
+
 ## 2. AI Editors & IDEs
 
 ### Cursor IDE
@@ -319,6 +346,25 @@ Each entry specifies detection rules, config locations, and uninstall commands p
 - **Config:** `~/.zcode/` (verified on a real install; contains `coding-plan-cache.json`, `bots-model-cache.v2.json`)
 - **Note:** Official GLM-5.2 coding harness; steerable from WeChat/Feishu/Telegram. Subscription SaaS
 - **Uninstall:** Remove app + `rm -rf ~/.zcode`
+
+### Kiro (Amazon)
+- **Install:** brew cask `kiro`
+- **Config:** `~/.kiro/`, `~/.config/kiro/`
+- **Uninstall:** macOS: `brew uninstall --cask kiro && rm -rf ~/.kiro ~/.config/kiro`
+
+### Claude Desktop
+- **Install:** Desktop installer (Anthropic)
+- **Config (macOS):** `~/Library/Application Support/Claude` — contains MCP configs, session data
+- **Config (Windows):** `%APPDATA%/Claude`
+
+### ChatGPT Desktop
+- **Install:** Desktop installer (OpenAI)
+- **Config (macOS):** `~/Library/Application Support/com.openai.chat`
+- **Config (Windows):** `%LOCALAPPDATA%/Programs/ChatGPT`
+
+### Raycast AI
+- **Install:** brew cask `raycast` (macOS only)
+- **Config:** `~/Library/Application Support/com.raycast.macos` — AI extensions, prompts, history
 
 ## 3. Model Runtimes
 
@@ -571,8 +617,14 @@ Each entry specifies detection rules, config locations, and uninstall commands p
 - `ghcr.io/berriai/litellm`
 - `localai/localai`
 - `comfyui/comfyui`
+- `ghcr.io/open-webui/open-webui`
+- `mintplexlabs/anything-llm`
+- `n8nio/n8n`
+- `langgenius/dify`
+- `langflowai/langflow`
+- `flowiseai/flowise`
 - `goauthentik/authentik` (if AI-adjacent)
-- Any image with tags: `llm`, `ai`, `gpt`, `stable-diffusion`, `comfyui`
+- Any image with tags: `llm`, `ai`, `gpt`, `stable-diffusion`, `comfyui`, `webui`, `n8n`, `dify`, `langflow`, `flowise`
 
 ### Detection
 - `docker images` + filter for AI-related names/tags

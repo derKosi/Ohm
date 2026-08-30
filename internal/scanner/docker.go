@@ -32,6 +32,7 @@ func (s *Scanner) scanDocker() {
 		"langchain", "vllm", "localai", "text-gen", "llama",
 		"mistral", "hugging", "transformers", "litellm", "openai",
 		"anthropic", "deepseek", "qwen",
+		"webui", "n8n", "dify", "langflow", "flowise",
 	}
 
 	var aiImages []string

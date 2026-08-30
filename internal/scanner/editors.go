@@ -133,6 +133,62 @@ func (s *Scanner) scanEditors() {
 				"windows": "# Cody: remove from editor extensions + Remove-Item ~/.cody -Recurse -Force",
 			},
 		},
+		{
+			id:   "kiro",
+			name: "Kiro (Amazon)",
+			configDirs: []string{
+				"~/.kiro",
+				"~/.config/kiro",
+			},
+			commands: []string{"kiro"},
+			risk:     model.RiskCaution,
+			uninstallCmds: map[string]string{
+				"linux":   "# Kiro: remove app + rm -rf ~/.kiro ~/.config/kiro",
+				"macos":   "brew uninstall --cask kiro && rm -rf ~/.kiro ~/.config/kiro",
+				"windows": "# Kiro: uninstall via Add/Remove Programs",
+			},
+		},
+		{
+			id:   "claude-desktop",
+			name: "Claude Desktop",
+			configDirs: []string{
+				"~/Library/Application Support/Claude", // macOS
+				"%APPDATA%/Claude",                     // Windows
+			},
+			risk: model.RiskCaution,
+			uninstallCmds: map[string]string{
+				"linux":   "# Claude Desktop: not available on Linux",
+				"macos":   "rm -rf /Applications/Claude.app ~/Library/Application\\ Support/Claude",
+				"windows": "# Claude Desktop: uninstall via Add/Remove Programs",
+			},
+		},
+		{
+			id:   "chatgpt-desktop",
+			name: "ChatGPT Desktop",
+			configDirs: []string{
+				"~/Library/Application Support/com.openai.chat", // macOS
+				"%LOCALAPPDATA%/Programs/ChatGPT",               // Windows
+			},
+			risk: model.RiskCaution,
+			uninstallCmds: map[string]string{
+				"linux":   "# ChatGPT Desktop: not available on Linux",
+				"macos":   "rm -rf /Applications/ChatGPT.app ~/Library/Application\\ Support/com.openai.chat",
+				"windows": "# ChatGPT Desktop: uninstall via Add/Remove Programs",
+			},
+		},
+		{
+			id:   "raycast-ai",
+			name: "Raycast AI",
+			configDirs: []string{
+				"~/Library/Application Support/com.raycast.macos", // macOS only
+			},
+			risk: model.RiskCaution,
+			uninstallCmds: map[string]string{
+				"linux":   "# Raycast: not available on Linux",
+				"macos":   "brew uninstall --cask raycast && rm -rf ~/Library/Application\\ Support/com.raycast.macos",
+				"windows": "# Raycast: not available on Windows",
+			},
+		},
 	}
 
 	for _, editor := range editors {

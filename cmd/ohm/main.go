@@ -515,6 +515,8 @@ func (a *TUIApp) View() string {
 	sb.WriteString("\n")
 	sb.WriteString(helpStyle("🔒 All scanning is local. No data leaves this machine."))
 	sb.WriteString("\n")
+	sb.WriteString(helpStyle("⚠️ kann andere Software beeinträchtigen · 🔑 enthält Credentials/Keys"))
+	sb.WriteString("\n")
 
 	// Platform warnings (e.g. WSL detected)
 	warnStyle := lipgloss.NewStyle().Foreground(lipgloss.Color("214"))
@@ -695,7 +697,7 @@ func outputJSON(result *model.ScanResult) {
 
 func printScanResult(result *model.ScanResult) {
 	printBanner()
-	fmt.Println()
+	fmt.Println("\n  ⚠️ kann andere Software beeinträchtigen · 🔑 enthält Credentials/Keys\n")
 	groups := result.ByCategory()
 
 	for _, group := range groups {

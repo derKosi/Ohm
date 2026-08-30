@@ -704,6 +704,83 @@ func (s *Scanner) scanAgents() {
 			"windows": "# Zenflow: uninstall via Add/Remove Programs + Remove-Item $env:APPDATA\\forgoodai,$env:LOCALAPPDATA\\zenflow-desktop-updater -Recurse -Force",
 		},
 	},
+
+	// ── 2026-08 additions (web-verified, paths best-effort) ────────
+	{
+		id:          "dsh",
+		name:        "DeepSeek Harness (DSH)",
+		configDirs:  []string{"~/.dsh"}, // covers dsh CLI + dsh-desktop (they share ~/.dsh)
+		commands:    []string{"dsh"},
+		npmPackages: []string{"@deepseek-ai/dsh"},
+		risk:        model.RiskCaution, // settings.yaml + provider keys, plugins
+		uninstallCmds: map[string]string{
+			"linux":   "npm uninstall -g @deepseek-ai/dsh && rm -rf ~/.dsh",
+			"macos":   "npm uninstall -g @deepseek-ai/dsh && rm -rf ~/.dsh",
+			"windows": "npm uninstall -g @deepseek-ai/dsh; Remove-Item ~/.dsh -Recurse -Force",
+		},
+	},
+	{
+		id:         "grok-build",
+		name:       "Grok Build (xAI harness)",
+		// ponytail: config path undocumented in xai-org/grok-build; XDG best-guess, refine on real install
+		configDirs: []string{"~/.grok-build", "~/.config/grok-build"},
+		commands:   []string{"grok-build"},
+		risk:       model.RiskSafe,
+		uninstallCmds: map[string]string{
+			"linux":   "# Grok Build: cargo uninstall / remove binary + rm -rf ~/.grok-build ~/.config/grok-build",
+			"macos":   "# Grok Build: cargo uninstall / remove binary + rm -rf ~/.grok-build ~/.config/grok-build",
+			"windows": "# Grok Build: remove binary + config dir",
+		},
+	},
+	{
+		id:          "codex-security",
+		name:        "Codex Security CLI (OpenAI)",
+		commands:    []string{"codex-security"},
+		npmPackages: []string{"@openai/codex-security"},
+		risk:        model.RiskSafe,
+		uninstallCmds: map[string]string{
+			"linux":   "npm uninstall -g @openai/codex-security",
+			"macos":   "npm uninstall -g @openai/codex-security",
+			"windows": "npm uninstall -g @openai/codex-security",
+		},
+	},
+	{
+		id:          "iflow-cli",
+		name:        "iFlow CLI",
+		configDirs:  []string{"~/.iflow"},
+		commands:    []string{"iflow"},
+		npmPackages: []string{"@iflow-ai/iflow-cli"},
+		risk:        model.RiskCaution,
+		uninstallCmds: map[string]string{
+			"linux":   "npm uninstall -g @iflow-ai/iflow-cli && rm -rf ~/.iflow",
+			"macos":   "npm uninstall -g @iflow-ai/iflow-cli && rm -rf ~/.iflow",
+			"windows": "npm uninstall -g @iflow-ai/iflow-cli; Remove-Item ~/.iflow -Recurse -Force",
+		},
+	},
+	{
+		id:         "blackbox-ai",
+		name:       "Blackbox AI",
+		configDirs: []string{"~/.blackbox"},
+		commands:   []string{"blackbox"},
+		risk:       model.RiskCaution,
+		uninstallCmds: map[string]string{
+			"linux":   "# Blackbox: remove binary + rm -rf ~/.blackbox",
+			"macos":   "# Blackbox: remove binary + rm -rf ~/.blackbox",
+			"windows": "# Blackbox: uninstall via Add/Remove Programs",
+		},
+	},
+	{
+		id:         "cli-proxy-api",
+		name:       "CLIProxyAPI (Model Router)",
+		configDirs: []string{"~/.cli-proxy-api"},
+		commands:   []string{"cli-proxy-api"},
+		risk:       model.RiskDanger, // config.yaml contains provider auth tokens
+		uninstallCmds: map[string]string{
+			"linux":   "# CLIProxyAPI: remove binary + rm -rf ~/.cli-proxy-api",
+			"macos":   "# CLIProxyAPI: remove binary + rm -rf ~/.cli-proxy-api",
+			"windows": "# CLIProxyAPI: remove binary + Remove-Item ~/.cli-proxy-api -Recurse -Force",
+		},
+	},
 	}
 
 	for _, agent := range agents {

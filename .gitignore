@@ -34,3 +34,8 @@ ohm-cleanup-*.bat
 
 # Marketing drafts
 marketing/
+
+# Generated cleanup scripts (local run artifacts)
+ohm-cleanup-*.sh
+ohm-backup-*.sh
+ohm-restore-*.sh

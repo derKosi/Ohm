@@ -75,8 +75,8 @@ This is a deliberate design choice and a core differentiator. If you find networ
 
 | # | Category | What It Finds |
 |---|----------|---------------|
-| 1 | **Agents & Harnesses** | pi, Claude Code, Aider, Continue, Cline, Codex CLI, Amazon Q, Cursor Agent, OpenCode, PaperclipAI, ZenFlow, Antigravity, Mistral Vibe, MiMo Code, Amp, Droid, gptme, Codebuff, custom harnesses |
-| 2 | **AI Editors & IDEs** | Cursor, Windsurf, Augment, Zed (AI features), GitHub Copilot, ZCode (Z.ai) |
+| 1 | **Agents & Harnesses** | pi, Claude Code, Aider, Continue, Cline, Codex CLI, Amazon Q, Cursor Agent, OpenCode, PaperclipAI, ZenFlow, Antigravity, Mistral Vibe, MiMo Code, Amp, Droid, gptme, Codebuff, DeepSeek Harness (DSH), Grok Build, Kiro, iFlow, Blackbox, CLIProxyAPI, custom harnesses |
+| 2 | **AI Editors & IDEs** | Cursor, Windsurf, Augment, Zed (AI features), GitHub Copilot, ZCode (Z.ai), Claude Desktop, ChatGPT Desktop, Raycast AI |
 | 3 | **Model Runtimes** | Ollama, LM Studio, LocalAI, vLLM, text-generation-webui, llama.cpp, llama-cpp-python, KTransformers, MLX/mlx-lm, Jan, GPT4All, KoboldCpp, Tabby |
 | 4 | **ComfyUI & Image Models** | ComfyUI install + checkpoints, LoRA adapters, ControlNet, VAEs, CLIP, UNet, embeddings, upscale models, custom nodes |
 | 5 | **SDKs & Frameworks** | PyTorch, TensorFlow, HuggingFace, Anthropic SDK, OpenAI SDK, LangChain, LlamaIndex, Playwright, Selenium |
@@ -86,7 +86,7 @@ This is a deliberate design choice and a core differentiator. If you find networ
 | 9 | **MCP Configurations** | .mcp.json files, MCP server configs (often contain API keys and connection strings) |
 | 10 | **Plugins & Extensions** | ComfyUI custom nodes, pi skills/plugins, VS Code AI extensions, JetBrains AI plugins |
 | 11 | **Config & Data Dirs** | ~/.claude/, ~/.pi/, ~/.aider/, ~/.cursor/, ~/.codex/, ~/.gemini/, ~/.vibe/, ~/.paperclip/, AppData entries, .config dirs |
-| 12 | **Docker** | AI-related images and volumes (ollama, vllm, comfyui, localai, etc.) |
+| 12 | **Docker** | AI-related images and volumes (ollama, vllm, comfyui, localai, open-webui, anything-llm, n8n, dify, langflow, flowise, etc.) |
 | 13 | **Stragglers** | Orphaned files from already-uninstalled tools, leftover model weights, dead services |
 
 ### Opt-In Scans (disabled by default, enabled with flags)

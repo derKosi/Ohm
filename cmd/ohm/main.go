@@ -697,7 +697,8 @@ func outputJSON(result *model.ScanResult) {
 
 func printScanResult(result *model.ScanResult) {
 	printBanner()
-	fmt.Println("\n  ⚠️ kann andere Software beeinträchtigen · 🔑 enthält Credentials/Keys\n")
+	fmt.Println("\n  ⚠️ kann andere Software beeinträchtigen · 🔑 enthält Credentials/Keys")
+	fmt.Println()
 	groups := result.ByCategory()
 
 	for _, group := range groups {

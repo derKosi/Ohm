@@ -12,6 +12,7 @@ import (
 
 	tea "github.com/charmbracelet/bubbletea"
 	"github.com/charmbracelet/lipgloss"
+	"github.com/derKosi/Ohm/internal/fun"
 	"github.com/derKosi/Ohm/internal/generator"
 	"github.com/derKosi/Ohm/internal/model"
 	"github.com/derKosi/Ohm/internal/scanner"
@@ -147,14 +148,20 @@ func cmdScan() {
 		}
 
 		printScanResult(result)
+		printSwarmChatter(result.Findings)
 		return
 	}
 
 	// TUI mode: Bubble Tea runs the scan with built-in animation
 	app := NewTUIScanner(opts, generator.Generate)
 	p := tea.NewProgram(app, tea.WithAltScreen())
-	if _, err := p.Run(); err != nil {
+	final, err := p.Run()
+	if err != nil {
 		fmt.Fprintf(os.Stderr, "TUI error: %v\n", err)
+	}
+	// After the TUI: optional "sentient swarm" easter egg (see internal/fun).
+	if m, ok := final.(*TUIApp); ok && m.result != nil {
+		printSwarmChatter(m.result.Findings)
 	}
 }
 
@@ -746,4 +753,18 @@ func printScanResult(result *model.ScanResult) {
 	fmt.Println()
 	fmt.Println("Run 'ohm scan' (without --no-tui) for interactive selection.")
 	fmt.Println("Run 'ohm generate' to create a cleanup script from the last scan.")
+}
+
+// printSwarmChatter prints the optional "sentient swarm" easter egg.
+// Feature slice: all logic lives in internal/fun; disable via OHM_FUN=0
+// or remove the call sites plus the import. Skipped for --json (already
+// returned earlier) and when stdout is piped, so scripted output stays clean.
+func printSwarmChatter(findings []model.Finding) {
+	if fi, err := os.Stdout.Stat(); err != nil || fi.Mode()&os.ModeCharDevice == 0 {
+		return
+	}
+	if msg := fun.SwarmChatter(findings, time.Now()); msg != "" {
+		fmt.Println()
+		fmt.Println(msg)
+	}
 }

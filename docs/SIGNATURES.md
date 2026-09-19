@@ -50,6 +50,13 @@ Each entry specifies detection rules, config locations, and uninstall commands p
 - **Uninstall:**
   - All: `npm uninstall -g @google/gemini-cli && rm -rf ~/.gemini`
 
+### GitHub Copilot CLI
+- **Install:** `npm i -g @github/copilot`
+- **Binary:** `copilot` in PATH
+- **Uninstall:** `npm uninstall -g @github/copilot`
+- **Note:** This is the standalone Copilot CLI; the existing VS Code and JetBrains
+  extension detection remains separate.
+
 ### Mistral Vibe
 - **Binary:** `vibe` in PATH
 - **Config:** `~/.vibe/` (config.toml, logs, vibehistory, trusted_folders.toml, update_cache.json)

@@ -84,6 +84,18 @@ func (s *Scanner) scanAgents() {
 			},
 		},
 		{
+			id:          "github-copilot-cli",
+			name:        "GitHub Copilot CLI",
+			commands:    []string{"copilot"},
+			npmPackages: []string{"@github/copilot"},
+			risk:        model.RiskDanger,
+			uninstallCmds: map[string]string{
+				"linux":   "npm uninstall -g @github/copilot",
+				"macos":   "npm uninstall -g @github/copilot",
+				"windows": "npm uninstall -g @github/copilot",
+			},
+		},
+		{
 			id:         "aider",
 			name:       "Aider",
 			configFiles: []string{"~/.aider.conf.yml"},

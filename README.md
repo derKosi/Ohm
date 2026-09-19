@@ -209,7 +209,7 @@ Ohm detects AI software across 13 categories — agents, editors, runtimes, mode
 
 | # | Category | What It Finds |
 |---|----------|---------------|
-| 1 | **Agents & Harnesses** | pi, Claude Code, Aider, Continue, Cline, Codex CLI, Amazon Q, Cursor Agent, OpenCode, PaperclipAI, ZenFlow, Antigravity, Mistral Vibe, MiMo Code, Amp, Droid, gptme, Codebuff, DeepSeek Harness (DSH), Grok Build, Kiro, iFlow, Blackbox, CLIProxyAPI, Codex Security, custom harnesses |
+| 1 | **Agents & Harnesses** | pi, Claude Code, Aider, Continue, Cline, Codex CLI, GitHub Copilot CLI, Amazon Q, Cursor Agent, OpenCode, PaperclipAI, ZenFlow, Antigravity, Mistral Vibe, MiMo Code, Amp, Droid, gptme, Codebuff, DeepSeek Harness (DSH), Grok Build, Kiro, iFlow, Blackbox, CLIProxyAPI, Codex Security, custom harnesses |
 | 2 | **AI Editors & IDEs** | Cursor, Windsurf, Augment, Zed (AI features), GitHub Copilot, ZCode (Z.ai), Claude Desktop, ChatGPT Desktop, Raycast AI |
 | 3 | **Model Runtimes** | Ollama, LM Studio, LocalAI, vLLM, text-generation-webui, llama.cpp, llama-cpp-python, KTransformers, MLX/mlx-lm, Jan, GPT4All, KoboldCpp, Tabby |
 | 4 | **ComfyUI & Image Models** | ComfyUI install + checkpoints, LoRA adapters, ControlNet, VAEs, CLIP, UNet, embeddings, upscale models, custom nodes |

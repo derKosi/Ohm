@@ -4,7 +4,7 @@ Ohm was built with the help of several tools and open-source projects.
 
 ## Author
 
-**Mathias Kosinski** — [derKosi@kosiit.de](mailto:derKosi@kosiit.de)
+**Mathias Kosinski** — [mathias.kosinski@gmail.com](mailto:mathias.kosinski@gmail.com)
 
 ## Development Tools
 

@@ -136,7 +136,7 @@ You need a commercial license if you:
 - **Embed** Ohm's scanner in a proprietary product
 - **Offer** Ohm (modified or not) as part of a paid SaaS
 
-For details and pricing: [COMMERCIAL-LICENSE.md](COMMERCIAL-LICENSE.md) or derKosi@kosiit.de.
+For details and pricing: [COMMERCIAL-LICENSE.md](COMMERCIAL-LICENSE.md) or mathias.kosinski@gmail.com.
 
 **Rule of thumb:** If you're shelling out to `ohm scan` and reading its output,
 you're fine under AGPL. If you're importing the Go code as a library, you need
@@ -222,6 +222,6 @@ install.sh / install.ps1     Platform installers (uploaded as release assets)
 
 ## Contact
 
-- **Licensing questions:** derKosi@kosiit.de
+- **Licensing questions:** mathias.kosinski@gmail.com
 - **Bugs/features:** https://github.com/derKosi/Ohm/issues
 - **Source:** https://github.com/derKosi/Ohm

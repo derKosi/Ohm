@@ -194,6 +194,6 @@ rm -rf ~/.ohm/state.json  # optional: remove scan history
 
 ## Questions?
 
-- **Licensing**: [COMMERCIAL-LICENSE.md](../COMMERCIAL-LICENSE.md) or derKosi@kosiit.de
+- **Licensing**: [COMMERCIAL-LICENSE.md](../COMMERCIAL-LICENSE.md) or mathias.kosinski@gmail.com
 - **Security/Privacy**: [README.md](../README.md) § "Privacy-First Architecture"
 - **Issues**: https://github.com/derKosi/Ohm/issues

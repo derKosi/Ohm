@@ -67,7 +67,7 @@ All prices exclude applicable VAT. Prices in EUR. Custom terms available on requ
 | Distribute modified Ohm without open-sourcing | ❌ | ✅ |
 | Priority support, SLA, custom signatures | ❌ | ✅ |
 
-**Contact:** derKosi@kosiit.de
+**Contact:** mathias.kosinski@gmail.com
 
 ## Why This Model?
 

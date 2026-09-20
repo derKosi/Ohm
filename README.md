@@ -363,6 +363,14 @@ Ohm is dual-licensed:
 
 **Most users don't need a commercial license.** Running `ohm scan` at home or at work is free. See [COMMERCIAL-LICENSE.md](COMMERCIAL-LICENSE.md) for details.
 
+## Acknowledgements
+
+The security hardening in v0.2.0 (script injection defenses, state trust
+boundaries, output write hardening) is based on a full security audit by
+[OpenVuln](https://openvuln.vulnhunter.pro), powered by
+[z.ai](https://huggingface.co/spaces/zai-org/OpenVuln) — thanks for the
+thorough review.
+
 © 2026 Mathias Kosinski · [Third-party notices](THIRD-PARTY-NOTICES.md)
 
 ## Documentation

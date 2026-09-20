@@ -3,9 +3,11 @@ package generator
 import (
 	"os"
 	"path/filepath"
+	"runtime"
 	"testing"
 
 	"github.com/derKosi/Ohm/internal/model"
+	"github.com/derKosi/Ohm/internal/platform"
 )
 
 // TestGenerateRejectsLineBreaks covers the newline breakout class
@@ -25,8 +27,8 @@ func TestGenerateRejectsLineBreaks(t *testing.T) {
 	res2 := &model.ScanResult{Findings: []model.Finding{
 		{ID: "evil2", Name: "Legit", Selected: true,
 			UninstallCmds: map[string]string{
-				"linux": "rm -rf /tmp/x\ntouch /tmp/pwned",
-				"macos": "rm -rf /tmp/x\ntouch /tmp/pwned",
+				"linux":   "rm -rf /tmp/x\ntouch /tmp/pwned",
+				"macos":   "rm -rf /tmp/x\ntouch /tmp/pwned",
 				"windows": "Remove-Item -LiteralPath 'C:\\x' -Recurse -Force\ntouch /tmp/pwned",
 			}},
 	}}
@@ -71,9 +73,12 @@ func TestGenerateWritesOExcl(t *testing.T) {
 	for _, tgt := range targets {
 		os.Remove(tgt)
 	}
-	link := filepath.Join(dir, "ohm-cleanup-2026-09-20.sh")
+	link := filepath.Join(dir, "ohm-cleanup-2026-09-20"+platform.ScriptExtension())
 	_ = os.Remove(link)
 	if err := os.Symlink(victim, link); err != nil {
+		if runtime.GOOS == "windows" {
+			t.Skip("symlink creation requires privileges on this Windows runner")
+		}
 		t.Fatal(err)
 	}
 	if _, err := Generate(res); err == nil {

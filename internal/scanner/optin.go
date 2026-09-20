@@ -148,7 +148,18 @@ func (s *Scanner) scanShellProfiles() {
 			lower := strings.ToLower(line)
 			for _, kw := range aiKeywords {
 				if strings.Contains(lower, kw) && !strings.HasPrefix(strings.TrimSpace(line), "#") {
-					aiLines = append(aiLines, strings.TrimSpace(line))
+					// Matching lines routinely carry live credentials
+					// (export OPENAI_API_KEY=…, alias claude='claude
+					// --api-key …', credential-bearing URLs). SubItems are
+					// persisted to ~/.ohm/state.json and printed by
+					// --json/text output, so apply the same value-redaction
+					// contract as scanENV: keep the keyword-bearing prefix,
+					// drop everything after the first '='.
+					trimmed := strings.TrimSpace(line)
+					if i := strings.Index(trimmed, "="); i >= 0 {
+						trimmed = trimmed[:i+1] + "<REDACTED>"
+					}
+					aiLines = append(aiLines, trimmed)
 					break
 				}
 			}

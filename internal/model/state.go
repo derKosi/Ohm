@@ -5,17 +5,34 @@ package model
 
 import (
 	"encoding/json"
+	"errors"
+	"fmt"
 	"os"
+	"os/user"
 	"path/filepath"
 	"time"
 )
 
 // State represents persistent state between Ohm runs.
+// State persists scan results between runs.
 type State struct {
-	Version   int        `json:"version"`
-	LastScan  time.Time  `json:"last_scan"`
-	Removed   []Removed  `json:"removed,omitempty"`
-	Findings  []Finding  `json:"findings,omitempty"`
+	Version  int       `json:"version"`
+	LastScan time.Time `json:"last_scan"`
+	// ScanOpts records the scanner options of the last scan, so `ohm generate`
+	// can re-run an equivalent scan instead of trusting persisted finding
+	// bytes (names/uninstall commands are emitted into an executable script).
+	ScanOpts ScanOpts   `json:"scan_opts,omitempty"`
+	Removed  []Removed  `json:"removed,omitempty"`
+	Findings []Finding  `json:"findings,omitempty"`
+}
+
+// ScanOpts mirrors scanner.Options for state persistence. Kept as a separate
+// type in model so the state schema does not depend on the scanner package.
+type ScanOpts struct {
+	Path  bool `json:"path,omitempty"`
+	Env   bool `json:"env,omitempty"`
+	Shell bool `json:"shell,omitempty"`
+	Deep  bool `json:"deep,omitempty"`
 }
 
 // Removed tracks a previously removed item for straggler detection.
@@ -27,11 +44,24 @@ type Removed struct {
 
 // StatePath returns the path to the state file.
 func StatePath() (string, error) {
-	home, err := os.UserHomeDir()
+	// The state file feeds `ohm generate`'s emitted script bytes, so which
+	// file counts as "the user's own state" is a security decision. $HOME /
+	// %USERPROFILE% are per-process environment values (direnv .envrc, repo
+	// wrappers, sudo -E): resolving the state location through them lets
+	// anyone controlling the environment of a single run point `ohm generate`
+	// at an attacker-placed state file. Anchor the location to the account's
+	// home directory from the OS user database instead. Note: this fails
+	// closed for generate when the current uid has no user-database entry
+	// (some minimal containers) — acceptable for a trust anchor; the scan
+	// save sites already ignore LoadState errors.
+	u, err := user.Current()
 	if err != nil {
-		return "", err
+		return "", fmt.Errorf("resolving current user: %w", err)
 	}
-	return filepath.Join(home, ".ohm", "state.json"), nil
+	if u.HomeDir == "" {
+		return "", errors.New("current user has no home directory")
+	}
+	return filepath.Join(u.HomeDir, ".ohm", "state.json"), nil
 }
 
 // LoadState loads state from disk.
@@ -64,7 +94,10 @@ func (s *State) Save() error {
 	}
 
 	dir := filepath.Dir(path)
-	if err := os.MkdirAll(dir, 0755); err != nil {
+	// State can carry verbatim credential lines captured by `ohm scan --shell`
+	// (findings[].sub_items). Keep both the directory and the file private to
+	// the owning user; umask can only tighten these, never loosen them.
+	if err := os.MkdirAll(dir, 0700); err != nil {
 		return err
 	}
 
@@ -73,7 +106,12 @@ func (s *State) Save() error {
 		return err
 	}
 
-	return os.WriteFile(path, data, 0644)
+	if err := os.WriteFile(path, data, 0600); err != nil {
+		return err
+	}
+	// os.WriteFile applies perm only at creation; tighten files that an older
+	// Ohm version left world-readable at 0644.
+	return os.Chmod(path, 0600)
 }
 
 // MarkRemoved records a finding as removed.

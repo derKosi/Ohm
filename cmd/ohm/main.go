@@ -18,7 +18,7 @@ import (
 )
 
 var (
-	version = "0.1.11"
+	version = "0.2.0"
 	commit  = "none"
 	date    = "unknown"
 )
@@ -137,6 +137,7 @@ func cmdScan() {
 
 		// Save state
 		state, _ := model.LoadState()
+		state.ScanOpts = model.ScanOpts{Path: opts.ScanPATH, Env: opts.ScanENV, Shell: opts.ScanShell, Deep: opts.ScanDeep}
 		state.LastScan = result.ScannedAt
 		state.Findings = result.Findings
 		state.Save()
@@ -165,17 +166,47 @@ func cmdGenerate() {
 		os.Exit(1)
 	}
 
-	result := &model.ScanResult{Findings: state.Findings}
-	selected := 0
-	for _, f := range result.Findings {
-		if f.Selected {
-			selected++
+	// The state file is plain JSON in the user's home, and Ohm itself never
+	// persists a selection — every "selected" finding in it was written
+	// outside Ohm (package install hooks, sync tools, hand editing). Its
+	// Name/UninstallCmds bytes are emitted verbatim into an executable
+	// script, so only the selection is taken from state: the emitted
+	// findings are re-derived from a fresh scan and matched by ID.
+	opts := scanner.Options{
+		ScanPATH:  state.ScanOpts.Path,
+		ScanENV:   state.ScanOpts.Env,
+		ScanShell: state.ScanOpts.Shell,
+		ScanDeep:  state.ScanOpts.Deep,
+	}
+	fresh := scanner.New(opts).Scan()
+	byID := make(map[string][]model.Finding, len(fresh.Findings))
+	for _, f := range fresh.Findings {
+		byID[f.ID] = append(byID[f.ID], f)
+	}
+	var selected []model.Finding
+	for _, f := range state.Findings {
+		if !f.Selected {
+			continue
 		}
+		cands := byID[f.ID]
+		if len(cands) == 0 {
+			continue // not present on this machine: never emit stale bytes
+		}
+		cur := cands[0]
+		byID[f.ID] = cands[1:]
+		cur.Selected = true
+		selected = append(selected, cur)
 	}
 
-	if selected == 0 {
+	if len(selected) == 0 {
 		fmt.Println("No items selected. Run 'ohm scan' and select items first.")
 		os.Exit(1)
+	}
+	result := &model.ScanResult{
+		Findings:  selected,
+		ScannedAt: fresh.ScannedAt,
+		Platform:  fresh.Platform,
+		Hostname:  fresh.Hostname,
 	}
 
 	path, err := generator.Generate(result)
@@ -263,6 +294,7 @@ type tickMsg struct{}
 // TUIApp with viewport scrolling.
 type TUIApp struct {
 	scanning   bool
+	scanOpts   scanner.Options
 	dotCount   int
 	result     *model.ScanResult
 	flatItems  []*model.Finding
@@ -284,6 +316,7 @@ const (
 func NewTUIScanner(opts scanner.Options, genFn GenerateFunc) *TUIApp {
 	return &TUIApp{
 		scanning: true,
+		scanOpts: opts,
 		generate: genFn,
 	}
 }
@@ -338,6 +371,7 @@ func (a *TUIApp) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			a.flatItems = flat
 			// Save state
 			state, _ := model.LoadState()
+			state.ScanOpts = model.ScanOpts{Path: a.scanOpts.ScanPATH, Env: a.scanOpts.ScanENV, Shell: a.scanOpts.ScanShell, Deep: a.scanOpts.ScanDeep}
 			state.LastScan = a.result.ScannedAt
 			state.Findings = a.result.Findings
 			state.Save()

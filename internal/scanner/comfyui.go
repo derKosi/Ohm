@@ -87,9 +87,9 @@ func (s *Scanner) scanComfyUI() {
 			SubItems:    subItems,
 			RiskLevel:   model.RiskSafe,
 			UninstallCmds: map[string]string{
-				"linux":   "rm -rf " + loc,
-				"macos":   "rm -rf " + loc,
-				"windows": "Remove-Item '" + loc + "' -Recurse -Force",
+				"linux":   "rm -rf " + shellQuote(loc),
+				"macos":   "rm -rf " + shellQuote(loc),
+				"windows": "Remove-Item -LiteralPath '" + psLiteral(loc) + "' -Recurse -Force",
 			},
 		})
 	}

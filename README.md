@@ -161,6 +161,7 @@ AI tools store sensitive data on disk: API keys in config files, project paths r
 - 🚫 **Never executes** — Ohm is read-only. It scans, lists, and writes scripts. You decide what runs.
 - 🔑 **Credential-aware** — flags locations that likely contain API keys or tokens (shows warning, never exposes contents).
 - 💾 **Local state only** — everything is stored locally (`~/.ohm/state.json`). No analytics, no crash reporting, no update checks that phone home.
+- 🛡️ **Injection-hardened** — generated script lines are single-line validated and shell-quoted; names/commands containing line breaks abort generation instead of being emitted. The state file is never trusted for script *content* — `ohm generate` only takes the selection from it and re-derives findings from a fresh scan. State lives at `0600` (dir `0700`).
 
 This is a deliberate design choice and a core differentiator. If you find network code in Ohm, that's a bug.
 
@@ -185,6 +186,8 @@ This is a deliberate design choice and a core differentiator. If you find networ
 - Scripts require manual execution — you stay in control.
 - Credential-containing files are flagged with ⚠️ but their contents are never displayed.
 - No `os.Remove`, `os.RemoveAll`, or `exec.Command("rm")` anywhere in the codebase.
+- Generated scripts quote every path (POSIX single-quote / PowerShell `-LiteralPath`) and reject any finding whose name or command contains a line break — hostile `$HOME` values or tampered state files cannot inject commands.
+- Shell-profile lines captured by `--shell` scans are value-redacted (`export OPENAI_API_KEY=<REDACTED>`) before being stored or displayed.
 
 </details>
 
@@ -267,6 +270,8 @@ rm -rf ~/.codex
 ```
 
 Ohm never runs the script. You review it, you run it — on your machine, in your time.
+
+> **Note:** `ohm generate` re-runs a scan with your last scan's options and takes only the *selection* from the saved state — never the persisted command strings. Findings that no longer exist on the machine are skipped rather than emitted from stale state.
 
 ## Installation
 

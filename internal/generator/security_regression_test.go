@@ -14,7 +14,9 @@ import (
 func TestGenerateRejectsLineBreaks(t *testing.T) {
 	res := &model.ScanResult{Findings: []model.Finding{
 		{ID: "evil", Name: "Legit\n\nid > /tmp/pwned", Selected: true,
-			UninstallCmds: map[string]string{"linux": "rm -rf /tmp/x"}},
+			UninstallCmds: map[string]string{
+				"linux": "rm -rf /tmp/x", "macos": "rm -rf /tmp/x", "windows": "Remove-Item -LiteralPath 'C:\\x' -Recurse -Force",
+			}},
 	}}
 	if _, err := Generate(res); err == nil {
 		t.Fatal("newline in Name must abort generation")
@@ -22,7 +24,11 @@ func TestGenerateRejectsLineBreaks(t *testing.T) {
 
 	res2 := &model.ScanResult{Findings: []model.Finding{
 		{ID: "evil2", Name: "Legit", Selected: true,
-			UninstallCmds: map[string]string{"linux": "rm -rf /tmp/x\ntouch /tmp/pwned"}},
+			UninstallCmds: map[string]string{
+				"linux": "rm -rf /tmp/x\ntouch /tmp/pwned",
+				"macos": "rm -rf /tmp/x\ntouch /tmp/pwned",
+				"windows": "Remove-Item -LiteralPath 'C:\\x' -Recurse -Force\ntouch /tmp/pwned",
+			}},
 	}}
 	if _, err := Generate(res2); err == nil {
 		t.Fatal("newline in UninstallCmd must abort generation")

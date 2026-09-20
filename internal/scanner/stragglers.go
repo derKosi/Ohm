@@ -93,9 +93,9 @@ func (s *Scanner) scanStragglers() {
 				ConfigPaths: foundPaths,
 				RiskLevel:   sg.risk,
 				UninstallCmds: map[string]string{
-					"linux":   "rm -rf " + joinPaths(foundPaths),
-					"macos":   "rm -rf " + joinPaths(foundPaths),
-					"windows": "Remove-Item '" + joinPaths(foundPaths) + "' -Recurse -Force",
+					"linux":   "rm -rf " + shellQuoteAll(foundPaths),
+					"macos":   "rm -rf " + shellQuoteAll(foundPaths),
+					"windows": "Remove-Item -LiteralPath '" + psLiteral(joinPaths(foundPaths)) + "' -Recurse -Force",
 				},
 			})
 		}

@@ -168,6 +168,25 @@ func (s *Scanner) expandPath(path string) string {
 	return path
 }
 
+// shellQuote makes s safe for use as a single word in a POSIX shell
+// command line: the value is wrapped in single quotes and embedded
+// single quotes are escaped with the '\'' idiom. Home-derived paths can
+// contain bytes that are shell-active when unquoted (spaces, ;, |, &,
+// >, $, `, newline, ...), so they must never be interpolated raw.
+func shellQuote(s string) string {
+	return "'" + strings.ReplaceAll(s, "'", `'\''`) + "'"
+}
+
+// shellQuoteAll quotes each path and joins the results with single
+// spaces, producing a safe argument list for rm.
+func shellQuoteAll(paths []string) string {
+	quoted := make([]string, len(paths))
+	for i, p := range paths {
+		quoted[i] = shellQuote(p)
+	}
+	return strings.Join(quoted, " ")
+}
+
 // hasCommand checks if a command exists.
 func (s *Scanner) hasCommand(name string) bool {
 	return platform.HasCommand(name)

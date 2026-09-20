@@ -84,6 +84,15 @@ func Generate(result *model.ScanResult) (string, error) {
 		sb.WriteString(fmt.Sprintf("# ─── %s ───\n\n", group.Category))
 
 		for _, f := range selected {
+			// Names and uninstall commands are emitted as single script lines —
+			// including the '#'-prefixed informational entries, where a line break
+			// ends the comment and turns everything after it into live shell
+			// statements. Legitimate values are built from curated constants
+			// joined with the home directory; a line break can only originate
+			// from a hostile $HOME (or a tampered state file). Refuse to generate.
+			if err := assertSingleLine("name", f.Name); err != nil {
+				return "", fmt.Errorf("finding %s: %w", f.ID, err)
+			}
 			sb.WriteString(fmt.Sprintf("# %s\n", f.Name))
 			sb.WriteString(fmt.Sprintf("# Size: %s\n", f.FormatSize()))
 			if f.RiskLevel == model.RiskDanger {
@@ -95,6 +104,9 @@ func Generate(result *model.ScanResult) (string, error) {
 			// Get platform-specific command
 			platformKey := osKey(osType)
 			if cmd, ok := f.UninstallCmds[platformKey]; ok && cmd != "" {
+				if err := assertSingleLine("uninstall command", cmd); err != nil {
+					return "", fmt.Errorf("finding %s: %w", f.ID, err)
+				}
 				if strings.HasPrefix(cmd, "#") {
 					sb.WriteString(cmd + "\n")
 				} else {
@@ -112,8 +124,32 @@ func Generate(result *model.ScanResult) (string, error) {
 	sb.WriteString(fmt.Sprintf("echo \"Cleanup script complete. %s freed (estimated).\"\n", model.FormatBytes(result.SelectedSize())))
 
 	// Write to file
-	if err := os.WriteFile(filename, []byte(sb.String()), 0644); err != nil {
+	// O_EXCL refuses to open any pre-existing directory entry, so a symlink
+	// (or any other non-regular entry) planted in a writable CWD can never be
+	// followed (CWE-59/CWE-377). Same-day regeneration stays possible by
+	// removing the previous plain file and re-creating it exclusively; a
+	// racing re-plant makes the second O_EXCL open fail closed instead of
+	// writing through it.
+	flags := os.O_WRONLY | os.O_CREATE | os.O_EXCL
+	f, err := os.OpenFile(filename, flags, 0644)
+	if err != nil && os.IsExist(err) {
+		if info, lerr := os.Lstat(filename); lerr != nil || !info.Mode().IsRegular() {
+			return "", fmt.Errorf("refusing to write %s: existing entry is not a regular file", filename)
+		}
+		if rerr := os.Remove(filename); rerr != nil {
+			return "", fmt.Errorf("failed to replace previous script: %w", rerr)
+		}
+		f, err = os.OpenFile(filename, flags, 0644)
+	}
+	if err != nil {
 		return "", fmt.Errorf("failed to write script: %w", err)
+	}
+	if _, werr := f.WriteString(sb.String()); werr != nil {
+		f.Close()
+		return "", fmt.Errorf("failed to write script: %w", werr)
+	}
+	if cerr := f.Close(); cerr != nil {
+		return "", fmt.Errorf("failed to write script: %w", cerr)
 	}
 
 	// Make executable on unix
@@ -136,6 +172,18 @@ func osKey(osType platform.OS) string {
 	default:
 		return "linux"
 	}
+}
+
+// assertSingleLine rejects values that would break out of the script line they
+// are emitted on. Generate is the single choke point where finding data becomes
+// executable script text — the '#' comment rule checks only the first byte and
+// writes multi-line values verbatim — so this guards both live scan results and
+// values coming from an externally authored state file.
+func assertSingleLine(what, s string) error {
+	if strings.ContainsAny(s, "\r\n\x00") {
+		return fmt.Errorf("%s contains a line break (possible command injection)", what)
+	}
+	return nil
 }
 
 func filterSelected(findings []model.Finding) []model.Finding {

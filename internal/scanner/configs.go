@@ -6,6 +6,7 @@ package scanner
 import (
 	"os"
 	"path/filepath"
+	"strings"
 
 	"github.com/derKosi/Ohm/internal/model"
 )
@@ -100,10 +101,18 @@ func (s *Scanner) scanConfigDirs() {
 			SizeBytes: size,
 			RiskLevel: cfg.risk,
 			UninstallCmds: map[string]string{
-				"linux":   "rm -rf " + cfg.path,
-				"macos":   "rm -rf " + cfg.path,
-				"windows": "Remove-Item '" + cfg.path + "' -Recurse -Force",
+				"linux":   "rm -rf " + shellQuote(cfg.path),
+				"macos":   "rm -rf " + shellQuote(cfg.path),
+				"windows": "Remove-Item -LiteralPath '" + psLiteral(cfg.path) + "' -Recurse -Force",
 			},
 		})
 	}
+}
+
+// psLiteral escapes a path for embedding inside a PowerShell single-quoted
+// string ('' is the only escape inside '...'). Without it, any ' in a
+// home-derived path closes the string early and the remainder is parsed as
+// live PowerShell (command injection).
+func psLiteral(p string) string {
+	return strings.ReplaceAll(p, "'", "''")
 }
